@@ -43,6 +43,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@asgardeo/auth-js": "^5.0.1"
+    "@asgardeo/auth-js": "^5.0.1",
+    "csstype": "^3.1.3"
   }
 }

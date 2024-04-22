@@ -67,7 +67,7 @@ const authorize = async (): Promise<AuthApiResponse> => {
     return (await response.json()) as AuthApiResponse;
   }
   throw new AsgardeoUIException(
-    'UI_CORE-AUTHZ-A-HE',
+    'JS_UI_CORE-AUTHZ-A-HE',
     'Failed to receive a successful response from the authorization server',
   );
 };

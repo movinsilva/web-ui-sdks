@@ -28,7 +28,7 @@ interface BrandingProps {
   merged?: Customization;
 }
 
-export const getBranding = async (props: BrandingProps): Promise<Customization> => {
+const getBranding = async (props: BrandingProps): Promise<Customization> => {
   const {customization, merged} = props;
   let mergedBranding: Customization;
 
@@ -53,3 +53,5 @@ export const getBranding = async (props: BrandingProps): Promise<Customization> 
 
   return mergedBranding;
 };
+
+export default getBranding;

@@ -30,7 +30,7 @@ import {BrandingTextAPIResponse} from 'src/models/branding-text-api-response';
  * @returns A Promise that resolves to the response from the server.
  * @throws {AsgardeoUIException} If the API call fails or when the response is not successful.
  */
-export const brandingText = async (
+const brandingText = async (
   locale: string,
   name: string,
   screen: string,
@@ -69,3 +69,5 @@ export const brandingText = async (
     'Failed to receive a successful response from the branding text endpoint',
   );
 };
+
+export default brandingText;

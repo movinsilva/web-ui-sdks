@@ -28,9 +28,28 @@
     "login",
     "customize"
   ],
-  "scripts": {
-  },
+  "scripts": {},
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25",
+    "@wso2/eslint-plugin": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/eslint-plugin?5bf60cabe9e9a2571e8b1dd16d0c3bdc76db2c4f",
+    "@wso2/prettier-config": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/prettier-config?5bf60cabe9e9a2571e8b1dd16d0c3bdc76db2c4f",
+    "@wso2/stylelint-config": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/stylelint-config?5bf60cabe9e9a2571e8b1dd16d0c3bdc76db2c4f",
+    "eslint": "~8.57.0",
+    "prettier": "^3.2.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.75.0",
+    "stylelint": "^16.4.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   }
 }

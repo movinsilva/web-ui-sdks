@@ -17,7 +17,7 @@
  */
 
 import merge from 'lodash.merge';
-import {brandingText} from 'src/api/branding-text';
+import brandingText from 'src/api/branding-text';
 import {AuthClient} from 'src/auth-client';
 import {BrandingTextAPIResponse} from 'src/models/branding-text-api-response';
 import {Customization} from 'src/models/customization';

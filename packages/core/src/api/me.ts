@@ -16,9 +16,9 @@
  * under the License.
  */
 
-import {AuthClient} from 'src/auth-client';
-import AsgardeoUIException from 'src/exception';
-import {MeAPIResponse} from 'src/models/me-api-response';
+import {AuthClient} from '../auth-client';
+import AsgardeoUIException from '../exception';
+import {MeAPIResponse} from '../models/me-api-response';
 
 const me = async (): Promise<MeAPIResponse> => {
   let baseUrl: string;

@@ -16,9 +16,9 @@
  * under the License.
  */
 
-import {AuthClient} from 'src/auth-client';
-import AsgardeoUIException from 'src/exception';
-import {BrandingTextAPIResponse} from 'src/models/branding-text-api-response';
+import {AuthClient} from '../auth-client';
+import AsgardeoUIException from '../exception';
+import {BrandingTextAPIResponse} from '../models/branding-text-api-response';
 
 /**
  * Fetches the branding text from the server.

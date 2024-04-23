@@ -16,9 +16,9 @@
  * under the License.
  */
 
-import {TextPreference} from 'src/i18n/public';
 import {BrandingPreferenceInterface, BrandingPreferenceTypes} from './branding-api-response';
 import {RecursivePartial} from './common';
+import {TextPreference} from '../i18n/screens/model';
 
 export type BrandingPreferenceText = Record<string, TextPreference>;
 

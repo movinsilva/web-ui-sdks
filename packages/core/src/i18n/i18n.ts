@@ -17,12 +17,12 @@
  */
 
 import merge from 'lodash.merge';
-import brandingText from 'src/api/branding-text';
-import {AuthClient} from 'src/auth-client';
-import {BrandingTextAPIResponse} from 'src/models/branding-text-api-response';
-import {Customization} from 'src/models/customization';
-import {ScreenType} from 'src/models/screen-type';
 import {TextObject} from './screens/model';
+import brandingText from '../api/branding-text';
+import {AuthClient} from '../auth-client';
+import {BrandingTextAPIResponse} from '../models/branding-text-api-response';
+import {Customization} from '../models/customization';
+import {ScreenType} from '../models/screen-type';
 
 /**
  * Interface for getLocalization function props.

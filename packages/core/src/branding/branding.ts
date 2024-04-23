@@ -17,11 +17,11 @@
  */
 
 import merge from 'lodash.merge';
-import branding from 'src/api/branding';
-import {AuthClient} from 'src/auth-client';
-import {BrandingPreferenceAPIResponseInterface} from 'src/models/branding-api-response';
-import {Customization} from 'src/models/customization';
 import DEFAULT_BRANDING from './default-branding/default-branding';
+import branding from '../api/branding';
+import {AuthClient} from '../auth-client';
+import {BrandingPreferenceAPIResponseInterface} from '../models/branding-api-response';
+import {Customization} from '../models/customization';
 
 interface BrandingProps {
   customization?: Customization;

@@ -1,0 +1,36 @@
+{
+  "name": "@asgardeo/react-ui",
+  "version": "0.1.0",
+  "description": "React Wrapper to build customizable login UIs for Asgardeo or Identity Server",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "author": "WSO2",
+  "license": "Apache-2.0",
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/asgardeo/web-ui-sdks/tree/main/packages/react#readme",
+  "bugs": {
+    "url": "https://github.com/asgardeo/web-ui-sdks/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asgardeo/web-ui-sdks/",
+    "directory": "packages/react"
+  },
+  "keywords": [
+    "asgardeo",
+    "identity",
+    "ui",
+    "react",
+    "login",
+    "customize"
+  ],
+  "scripts": {
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -43,12 +43,12 @@ const getBranding = async (props: BrandingProps): Promise<Customization> => {
     }
 
     if (brandingFromConsole?.preference?.configs?.isBrandingEnabled) {
-      mergedBranding = await merge(DEFAULT_BRANDING, brandingFromConsole ?? {}, customization ?? {});
+      mergedBranding = merge(DEFAULT_BRANDING, brandingFromConsole ?? {}, customization ?? {});
     } else {
-      mergedBranding = await merge(DEFAULT_BRANDING, customization ?? {});
+      mergedBranding = merge(DEFAULT_BRANDING, customization ?? {});
     }
   } else {
-    mergedBranding = await merge(merged ?? {}, customization ?? {});
+    mergedBranding = merge(merged ?? {}, customization ?? {});
   }
 
   return mergedBranding;

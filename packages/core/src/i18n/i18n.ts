@@ -73,7 +73,7 @@ const getLocalization = async (props: GetLocalization): Promise<TextObject> => {
   /**
    * Merge text objects according to the priority
    */
-  const mergedText: TextObject = await merge(
+  const mergedText: TextObject = merge(
     module[screen] ?? {},
     textFromConsoleBranding?.preference?.text ?? {},
     providerCustomization?.preference?.text?.[locale]?.[screen] ?? {},

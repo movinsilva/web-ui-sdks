@@ -62,6 +62,10 @@ importers:
         version: 5.4.5
 
   packages/react:
+    dependencies:
+      '@asgardeo/js-ui-core':
+        specifier: '*'
+        version: link:../core
     devDependencies:
       '@types/node':
         specifier: ^20.12.7

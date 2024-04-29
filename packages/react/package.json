@@ -48,6 +48,9 @@
     "tslib": "^2.6.2",
     "typescript": "^5.4.5"
   },
+  "dependencies": {
+    "@asgardeo/js-ui-core": "*"
+  },
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"

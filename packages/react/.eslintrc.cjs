@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2024, WSO2 LLC. (https://www.wso2.com). All Rights Reserved.
+ * Copyright (c) 2024, WSO2 LLC. (https://www.wso2.com).
  *
  * WSO2 LLC. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,23 +16,20 @@
  * under the License.
  */
 
-const path = require("path");
+const path = require('path');
 
 module.exports = {
   extends: [
-    "plugin:@wso2/typescript",
-    "plugin:@wso2/strict",
-    "plugin:@wso2/internal",
-    "plugin:@wso2/prettier",
-    "plugin:@wso2/react",
-    "plugin:@wso2/jest",
-    "plugin:react/jsx-runtime",
+    'plugin:@wso2/typescript',
+    'plugin:@wso2/strict',
+    'plugin:@wso2/internal',
+    'plugin:@wso2/prettier',
+    'plugin:@wso2/react',
+    'plugin:@wso2/jest',
+    'plugin:react/jsx-runtime',
   ],
   parserOptions: {
-    project: [
-      path.resolve(__dirname, "tsconfig.lib.json"),
-      path.resolve(__dirname, "tsconfig.eslint.json"),
-    ],
+    project: [path.resolve(__dirname, 'tsconfig.lib.json'), path.resolve(__dirname, 'tsconfig.eslint.json')],
   },
-  plugins: ["@wso2"],
+  plugins: ['@wso2'],
 };

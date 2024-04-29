@@ -17,12 +17,12 @@
  */
 
 import merge from 'lodash.merge';
-import {Customization} from 'src/models/customization';
-import {ScreenType} from 'src/models/screen-type';
 import {TextObject} from './screens/model';
 import getBrandingPreferenceText from '../api/branding-preference-text';
 import {AuthClient} from '../auth-client';
 import {BrandingPreferenceTextAPIResponse} from '../models/branding-text-api-response';
+import {Customization} from '../models/customization';
+import {ScreenType} from '../models/screen-type';
 
 /**
  * Interface for getLocalization function props.
@@ -71,7 +71,7 @@ const getLocalization = async (props: GetLocalization): Promise<TextObject> => {
   /**
    * Merge text objects according to the priority
    */
-  const mergedText: TextObject = await merge(
+  const mergedText: TextObject = merge(
     /**
      * PRIORITY 04: Default stored branding text
      */

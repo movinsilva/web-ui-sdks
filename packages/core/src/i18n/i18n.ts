@@ -17,10 +17,34 @@
  */
 
 import merge from 'lodash.merge';
-import getBrandingPreferenceText from 'src/api/branding-preference-text';
-import {AuthClient} from 'src/auth-client';
-import {BrandingPreferenceTextAPIResponse} from 'src/models/branding-text-api-response';
-import {GetLocalization, TextObject} from './screens/model';
+import {Customization} from 'src/models/customization';
+import {ScreenType} from 'src/models/screen-type';
+import {TextObject} from './screens/model';
+import getBrandingPreferenceText from '../api/branding-preference-text';
+import {AuthClient} from '../auth-client';
+import {BrandingPreferenceTextAPIResponse} from '../models/branding-text-api-response';
+
+/**
+ * Interface for getLocalization function props.
+ */
+export interface GetLocalization {
+  /**
+   * Customiztion prop passed to the component
+   */
+  componentCustomization?: Customization;
+  /**
+   * Locale to filter the retrieval of localization.
+   */
+  locale: string;
+  /**
+   * Customization prop passed to the provider
+   */
+  providerCustomization?: Customization;
+  /**
+   * Screen to filter the retrieval of localization.
+   */
+  screen: ScreenType;
+}
 
 /**
  * Fetch and merge branding properties.

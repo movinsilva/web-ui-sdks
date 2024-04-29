@@ -1,37 +1,36 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-      "declaration": false,
-      "moduleResolution": "node",
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "importHelpers": true,
-      "target": "es2015",
-      "module": "esnext",
-      "lib": ["es2017", "dom"],
-      "skipLibCheck": true,
-      "skipDefaultLibCheck": true,
       "jsx": "react-jsx",
-      "allowJs": true,
+      "target": "es2016",
+      "module": "ESNext",
+      "emitDecoratorMetadata": true,
       "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
+      "experimentalDecorators": true,
       "forceConsistentCasingInFileNames": true,
       "strict": false,
+      "skipLibCheck": true,
+      "skipDefaultLibCheck": true,
+      "allowJs": true,
+      "allowSyntheticDefaultImports": true,
+      "declaration": true,
+      "declarationDir": "dist/types",
+      "outDir": "dist",
+      "moduleResolution": "node",
+      "importHelpers": true,
+      "resolveJsonModule": true,
       "noImplicitOverride": true,
       "noPropertyAccessFromIndexSignature": true,
       "noImplicitReturns": true,
       "noFallthroughCasesInSwitch": true,
-      "resolveJsonModule": true,
       "baseUrl": ".",
-      "types": ["node", "jest"],
-    },
-    "exclude": ["node_modules", "tmp"],
-    "files": [],
+  },
     "include": [],
+    "files": [],
+    "exclude": ["node_modules", "tmp"],
     "references": [
-      {
-        "path": "./tsconfig.lib.json"
-      }
-    ]
-  }
-  
+        {
+          "path": "./tsconfig.lib.json"
+        }
+  ]
+}

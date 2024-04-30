@@ -16,9 +16,15 @@
  * under the License.
  */
 
-export * from './api/public-api';
-export {default as getBranding} from './branding/branding';
-export * from './i18n/public';
-export * from './auth-client';
-export * from './models/public-models';
-export {default as AsgardeoUIException} from './exception';
+import {UIAuthConfig} from '@asgardeo/js-ui-core';
+import {Context, createContext} from 'react';
+
+export interface AuthContext {
+  accessToken: string;
+  config: UIAuthConfig;
+  customizationOptions?: any;
+  isAuthenticated: boolean | undefined;
+  setAuthentication: () => void;
+}
+
+export const AsgardeoContext: Context<AuthContext> = createContext<AuthContext>(undefined);

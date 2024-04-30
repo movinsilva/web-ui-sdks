@@ -16,9 +16,24 @@
  * under the License.
  */
 
-export * from './api/public-api';
-export {default as getBranding} from './branding/branding';
-export * from './i18n/public';
-export * from './auth-client';
-export * from './models/public-models';
-export {default as AsgardeoUIException} from './exception';
+import {Store} from '@asgardeo/js-ui-core';
+
+export default class SessionStore implements Store {
+  private storage: Storage;
+
+  constructor() {
+    this.storage = sessionStorage;
+  }
+
+  public async setData(key: string, value: string): Promise<void> {
+    this.storage.setItem(key, value);
+  }
+
+  public async getData(key: string): Promise<string> {
+    return this.storage.getItem(key) ?? '{}';
+  }
+
+  public async removeData(key: string): Promise<void> {
+    this.storage.removeItem(key);
+  }
+}

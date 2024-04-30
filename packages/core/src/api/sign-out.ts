@@ -16,27 +16,12 @@
  * under the License.
  */
 
-import {UIAuthConfig} from '@asgardeo/js-ui-core';
-import {Context, createContext, useContext} from 'react';
+import {AuthClient} from 'src/auth-client';
 
-export interface AuthContext {
-  accessToken: string;
-  config: UIAuthConfig;
-  customizationOptions?: any;
-  isAuthenticated: boolean | undefined;
-  setAuthentication: () => void;
-}
+const signOut: () => Promise<void> = async () => {
+  const signOutUrl: string = await AuthClient.getInstance().getSignOutURL();
 
-export const AsgardeoContext: Context<AuthContext> = createContext<AuthContext>(undefined);
+  console.log(signOutUrl);
+};
 
-export const useAuthentication = () => {
-  const contextValue: AuthContext = useContext(AsgardeoContext);
-
-  const { user, isAuthenticated, setAuthentication } = contextValue;
-
-  const signOut = () => {
-    
-  }
-
-
-}
+export default signOut;

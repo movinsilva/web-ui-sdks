@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import {UIAuthConfig} from '@asgardeo/js-ui-core';
+import {MeAPIResponse, UIAuthConfig, signOut as signOutApi} from '@asgardeo/js-ui-core';
 import {Context, createContext, useContext} from 'react';
 
 export interface AuthContext {
@@ -25,18 +25,26 @@ export interface AuthContext {
   customizationOptions?: any;
   isAuthenticated: boolean | undefined;
   setAuthentication: () => void;
+  user: MeAPIResponse;
 }
 
 export const AsgardeoContext: Context<AuthContext> = createContext<AuthContext>(undefined);
 
-export const useAuthentication = () => {
+interface UseAuthenticationResponse {
+  accessToken: string;
+  isAuthenticated: Promise<boolean> | boolean;
+  signOut: () => void;
+  user: MeAPIResponse;
+}
+
+export const useAuthentication = (): UseAuthenticationResponse => {
   const contextValue: AuthContext = useContext(AsgardeoContext);
 
-  const { user, isAuthenticated, setAuthentication } = contextValue;
+  const {user, isAuthenticated, accessToken} = contextValue;
 
-  const signOut = () => {
-    
-  }
+  const signOut: () => void = () => {
+    signOutApi();
+  };
 
-
-}
+  return {accessToken, isAuthenticated, signOut, user};
+};

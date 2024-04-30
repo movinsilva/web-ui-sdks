@@ -16,9 +16,5 @@
  * under the License.
  */
 
-export {default as authorize} from './authorize';
-export {default as authenticate} from './authenticate';
-export {default as getBrandingPreference} from './branding-preference';
-export {default as getProfileInformation} from './profile';
-export {default as getBrandingPreferenceText} from './branding-preference-text';
-export {default as signOut} from './sign-out';
+export * from './components/public-components';
+export type {UIAuthConfig} from '@asgardeo/js-ui-core';

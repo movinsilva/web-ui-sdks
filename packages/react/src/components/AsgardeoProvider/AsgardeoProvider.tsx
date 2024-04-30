@@ -16,15 +16,23 @@
  * under the License.
  */
 
-import {AuthClient, CryptoUtils, MeAPIResponse, Store, UIAuthClient, UIAuthConfig, me} from '@asgardeo/js-ui-core';
+import {
+  AuthClient,
+  CryptoUtils,
+  MeAPIResponse,
+  Store,
+  UIAuthClient,
+  UIAuthConfig,
+  getProfileInformation,
+} from '@asgardeo/js-ui-core';
 import {FC, PropsWithChildren, useCallback, useEffect, useMemo, useState} from 'react';
-import SPACryptoUtils from 'src/utils/crypto-utils';
-import SessionStore from 'src/utils/session-store';
 import {AsgardeoContext, AuthContext} from './asgardeo-context';
+import SPACryptoUtils from '../../utils/crypto-utils';
+import SessionStore from '../../utils/session-store';
 
 interface AsgardeProviderProps {
   config: UIAuthConfig;
-  store: Store;
+  store?: Store;
 }
 
 const AsgardeoProvider: FC<PropsWithChildren<AsgardeProviderProps>> = (
@@ -57,7 +65,7 @@ const AsgardeoProvider: FC<PropsWithChildren<AsgardeProviderProps>> = (
       if (accessTokenFromClient) {
         setAccessToken(accessTokenFromClient);
 
-        me().then((response: MeAPIResponse) => {
+        getProfileInformation().then((response: MeAPIResponse) => {
           setUser(response);
         });
       }

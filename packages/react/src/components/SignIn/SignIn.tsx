@@ -16,6 +16,18 @@
  * under the License.
  */
 
-export {default as AsgardeoProvider} from './AsgardeoProvider/AsgardeoProvider';
-export * from './AsgardeoProvider/asgardeo-context';
-export {default as SignIn} from './SignIn/SignIn';
+import UISignIn from '../ui-components/UISignIn';
+
+const SignIn: FC = props => {
+  const {customization} = props;
+
+  return (
+    <UISignIn>
+      <UISignIn.Title>Sign In</UISignIn.Title>
+      <UISignIn.Title subtitle>Sign in to your account</UISignIn.Title>
+      <UISignIn.InputField placeholder="Username" label="Username" />
+    </UISignIn>
+  );
+};
+
+export default SignIn;

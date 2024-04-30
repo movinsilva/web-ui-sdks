@@ -16,6 +16,20 @@
  * under the License.
  */
 
-export {default as AsgardeoProvider} from './AsgardeoProvider/AsgardeoProvider';
-export * from './AsgardeoProvider/asgardeo-context';
-export {default as SignIn} from './SignIn/SignIn';
+import {Box} from '@oxygen-ui/react';
+import clsx from 'clsx';
+import {FC, PropsWithChildren} from 'react';
+import {SignInInputField, SignInTitle} from './CompoundComponents';
+import './ui-sign-in.scss';
+
+const UISignIn: FC<PropsWithChildren> = props => {
+  const {children} = props;
+  const classes: string = clsx('ui-sign-in', props['className']);
+
+  return <Box className={classes}>{children}</Box>;
+};
+
+UISignIn.Title = SignInTitle;
+UISignIn.InputField = SignInInputField;
+
+export default UISignIn;

@@ -1,13 +1,43 @@
+.ui-sign-in-paper {
+    padding: 32px;
+    min-width: 350px;
+    max-width: 500px;
+    padding-bottom: 55px;
+}
+
 .ui-sign-in-title {
-    color: black;
-    font-weight: bold;
-    font-size: 2rem;
 }
 
 .ui-sign-in-subtitle {
-    color: green;
-    font-size: 1rem;
+    color: grey;
 }
 
 .ui-sign-in-input-field {
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
+
+.ui-sign-in-button {
+    margin: 16px 0!important;
+}
+
+.ui-sign-in-option-divider {
+    margin: 16px 0!important;
+}
+
+.ui-sign-in-option-social {
+    background: whitesmoke!important;
+    color: black!important;
+    width: 100%;
+    /* stylelint-disable-next-line color-function-notation */
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 12%), 0 1px 1px 0 rgba(0, 0, 0, 24%);
+
+    &:hover {
+      /* stylelint-disable-next-line color-function-notation */
+      color: rgba(0, 0, 0, 80%);
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 16px;
+    }
+  }

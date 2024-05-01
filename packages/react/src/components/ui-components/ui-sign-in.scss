@@ -1,12 +1,10 @@
 .ui-sign-in {
-  border: 1px solid black;
+  border: .2px solid rgb(214, 214, 214);
   display: flex;
   flex-flow: column nowrap;
   align-content: center;
   justify-content: center;
   align-items: center;
   text-align: left;
-  padding: 32px;
-  min-width: 350px;
-  max-width: 500px;
+  padding: 20px;
 }

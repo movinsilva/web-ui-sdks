@@ -16,17 +16,40 @@
  * under the License.
  */
 
+import {Button, SignIn as OSI} from '@oxygen-ui/react';
 import UISignIn from '../ui-components/UISignIn';
 
 const SignIn: FC = props => {
   const {customization} = props;
 
   return (
-    <UISignIn>
-      <UISignIn.Title>Sign In</UISignIn.Title>
-      <UISignIn.Title subtitle>Sign in to your account</UISignIn.Title>
-      <UISignIn.InputField placeholder="Username" label="Username" />
-    </UISignIn>
+    <>
+      <UISignIn>
+        <UISignIn.Root>
+          <UISignIn.Title>Sign In</UISignIn.Title>
+          <UISignIn.Title subtitle>Sign in to your account</UISignIn.Title>
+          <UISignIn.InputField fullWidth placeholder="Username" label="Username" />
+          <UISignIn.InputField placeholder="Enter your password" label="Password" type="password" />
+          <UISignIn.RememberMe />
+          <UISignIn.Button color="primary" variant="contained" type="submit" fullWidth>
+            Sign In
+          </UISignIn.Button>
+          <UISignIn.OptionDivider> OR</UISignIn.OptionDivider>
+          <UISignIn.Button social fullWidth type="button" variant="contained">
+            Sign In With Google
+          </UISignIn.Button>
+          <UISignIn.Register signUpUrl="/register" />
+        </UISignIn.Root>
+      </UISignIn>
+      <OSI
+        sx={{marginTop: '5rem'}}
+        signInOptions={
+          <Button className="oxygen-sign-in-option-social google" fullWidth type="button" variant="contained">
+            Sign In With Google
+          </Button>
+        }
+      />
+    </>
   );
 };
 

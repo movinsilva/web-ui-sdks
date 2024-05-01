@@ -19,7 +19,7 @@
 import {Box} from '@oxygen-ui/react';
 import clsx from 'clsx';
 import {FC, PropsWithChildren} from 'react';
-import {SignInInputField, SignInTitle} from './CompoundComponents';
+import {RegisterLink, RememberMe, SignInButton, SignInInputField, SignInOptionDivider, SignInRoot, SignInTitle} from './CompoundComponents';
 import './ui-sign-in.scss';
 
 const UISignIn: FC<PropsWithChildren> = props => {
@@ -31,5 +31,10 @@ const UISignIn: FC<PropsWithChildren> = props => {
 
 UISignIn.Title = SignInTitle;
 UISignIn.InputField = SignInInputField;
+UISignIn.Root = SignInRoot;
+UISignIn.Button = SignInButton;
+UISignIn.Register = RegisterLink;
+UISignIn.RememberMe = RememberMe;
+UISignIn.OptionDivider = SignInOptionDivider;
 
 export default UISignIn;

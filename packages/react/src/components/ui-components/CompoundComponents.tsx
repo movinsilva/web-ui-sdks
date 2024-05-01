@@ -16,10 +16,25 @@
  * under the License.
  */
 
-import {TextField, Typography} from '@oxygen-ui/react';
+import {Button, Checkbox, Divider, FormControlLabel, FormGroup, Grid, Link, Paper, TextField, Typography} from '@oxygen-ui/react';
 import clsx from 'clsx';
 import {ComponentPropsWithoutRef, ElementRef, ForwardRefExoticComponent, ForwardedRef, forwardRef} from 'react';
 import './compound-components.scss';
+
+/******************
+ *   SignInRoot   *
+ ******************/
+type SignInRootElement = ElementRef<typeof Paper>;
+type RootProps = ComponentPropsWithoutRef<typeof Paper>;
+interface SignInRootProps extends RootProps {}
+
+const SignInRoot: ForwardRefExoticComponent<SignInRootProps> = forwardRef<SignInRootElement, SignInRootProps>(
+  (props: SignInRootProps, forwardedRef: ForwardedRef<unknown>) => {
+    const classes: string = clsx('ui-sign-in-paper', props['className']);
+    return <Paper className={classes} ref={forwardedRef} variant="outlined" {...props} />;
+  },
+);
+
 
 /*******************
  *   SignInTitle   *
@@ -34,8 +49,9 @@ const SignInTitle: ForwardRefExoticComponent<SignInTitleProps> = forwardRef<Sign
   (props: SignInTitleProps, forwardedRef: ForwardedRef<unknown>) => {
     const {subtitle, ...rest} = props;
     const classname = subtitle ? 'ui-sign-in-subtitle' : 'ui-sign-in-title';
+    const variant = subtitle ? 'subtitle1' : 'h5';
     const classes: string = clsx(classname, props['className']);
-    return <Typography className={classes} ref={forwardedRef} {...rest} />;
+    return <Typography className={classes} ref={forwardedRef} align="center" variant={variant} {...rest} />;
   },
 );
 
@@ -53,4 +69,49 @@ const SignInInputField: ForwardRefExoticComponent<InputFieldProps> = forwardRef<
   },
 );
 
-export {SignInTitle, SignInInputField};
+/********************
+ *   SignInButton   *
+ ********************/
+type SignInButtonElement = ElementRef<typeof Button>;
+type ButtonProps = ComponentPropsWithoutRef<typeof Button>;
+interface SignInButtonProps extends ButtonProps {
+  social?: boolean;
+}
+
+const SignInButton: ForwardRefExoticComponent<SignInButtonProps> = forwardRef<SignInButtonElement, SignInButtonProps>(
+  (props: SignInButtonProps, forwardedRef) => {
+    const className: string = props.social ? 'ui-sign-in-option-social' : 'ui-sign-in-button';
+    const classes: string = clsx(className, props['className']);
+    return <Button className={classes} ref={forwardedRef} {...props} />;
+  },
+);
+
+const RegisterLink = ({signUpUrl}) => {
+  return <Grid container className="oxygen-sign-in-sign-up-link">
+  <Grid>Don&apos;t have an account?</Grid>
+  <Grid>
+    <Link href={signUpUrl} className="oxygen-sign-in-sign-up-link-action">
+      Sign up
+    </Link>
+  </Grid>
+</Grid>
+}
+
+const RememberMe = () => {
+  return <FormGroup>
+     <FormControlLabel control={<Checkbox />} label="Remember me on this computer" />
+  </FormGroup>
+}
+
+type SignInOptionDividerElement = ElementRef<typeof Divider>;
+type OptionDividerProps = ComponentPropsWithoutRef<typeof Divider>;
+interface SignInOptionDividerProps extends OptionDividerProps {}
+
+const SignInOptionDivider: ForwardRefExoticComponent<SignInOptionDividerProps> = forwardRef<SignInOptionDividerElement, SignInOptionDividerProps>(
+  (props: SignInOptionDividerProps, forwardedRef) => {
+    const classes: string = clsx('ui-sign-in-option-divider', props['className']);
+    return <Divider className={classes} ref={forwardedRef} {...props} />;
+  },
+);
+
+export {SignInRoot, SignInTitle, SignInInputField, SignInButton, RegisterLink, RememberMe, SignInOptionDivider};

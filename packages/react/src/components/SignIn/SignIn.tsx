@@ -27,7 +27,7 @@ const SignIn: FC = props => {
       <UISignIn>
         <UISignIn.Root>
           <UISignIn.Title>Sign In</UISignIn.Title>
-          <UISignIn.Title subtitle>Sign in to your account</UISignIn.Title>
+          {/* <UISignIn.Title subtitle>Sign in to your account</UISignIn.Title> */}
           <UISignIn.InputField fullWidth placeholder="Username" label="Username" />
           <UISignIn.InputField placeholder="Enter your password" label="Password" type="password" />
           <UISignIn.RememberMe />

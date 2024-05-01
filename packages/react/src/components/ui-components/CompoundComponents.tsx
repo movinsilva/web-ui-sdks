@@ -80,9 +80,10 @@ interface SignInButtonProps extends ButtonProps {
 
 const SignInButton: ForwardRefExoticComponent<SignInButtonProps> = forwardRef<SignInButtonElement, SignInButtonProps>(
   (props: SignInButtonProps, forwardedRef) => {
-    const className: string = props.social ? 'ui-sign-in-option-social' : 'ui-sign-in-button';
+    const {social, ...rest} = props;
+    const className: string = social ? 'ui-sign-in-option-social' : 'ui-sign-in-button';
     const classes: string = clsx(className, props['className']);
-    return <Button className={classes} ref={forwardedRef} {...props} />;
+    return <Button className={classes} ref={forwardedRef} {...rest} />;
   },
 );
 

@@ -1,5 +1,5 @@
 import './App.css'
-import { useAuthentication, SignIn } from '../../../packages/react/src'
+import { SignIn } from '../../../packages/react/src'
 
 function App() {
 
@@ -8,9 +8,7 @@ function App() {
 
   return (
     <>
-      Hello
       <SignIn />
-      
     </>
   )
 }

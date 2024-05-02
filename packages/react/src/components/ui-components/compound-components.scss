@@ -13,22 +13,25 @@
 }
 
 .ui-sign-in-input-field {
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin: 16px 0;
+}
+.ui-sign-in-input-field-label{
+    color: var(--oxygen-palette-text-primary)
 }
 
 .ui-sign-in-button {
-    margin: 16px 0!important;
+    margin: 16px 0;
 }
 
 .ui-sign-in-option-divider {
-    margin: 16px 0!important;
+    margin: 8px 0!important;
 }
 
 .ui-sign-in-option-social {
     background: whitesmoke!important;
     color: black!important;
     width: 100%;
+    padding: 8px 0;
     /* stylelint-disable-next-line color-function-notation */
     box-shadow: 0 0 1px 0 rgba(0, 0, 0, 12%), 0 1px 1px 0 rgba(0, 0, 0, 24%);
 
@@ -40,4 +43,17 @@
     &:not(:last-child) {
       margin-bottom: 16px;
     }
+  }
+
+  .oxygen-sign-in-sign-up-link-action {
+    margin-left: 6px;
+  }
+
+  .oxygen-sign-in-retry-text {
+    border: 2px solid red;
+    border-radius: 20px;
+    padding: 1rem;
+    color: red;
+    margin: 1rem 0;
+    max-width: 360px;
   }

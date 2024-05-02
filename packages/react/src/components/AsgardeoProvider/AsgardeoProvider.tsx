@@ -19,6 +19,7 @@
 import {
   AuthClient,
   CryptoUtils,
+  Customization,
   MeAPIResponse,
   Store,
   UIAuthClient,
@@ -29,17 +30,20 @@ import {FC, PropsWithChildren, useCallback, useEffect, useMemo, useState} from '
 import {AsgardeoContext, AuthContext} from './asgardeo-context';
 import SPACryptoUtils from '../../utils/crypto-utils';
 import SessionStore from '../../utils/session-store';
+import BrandingPreferenceProvider from '../BrandingPreferenceProvider/BrandingPreferenceProvider';
 
 interface AsgardeProviderProps {
   config: UIAuthConfig;
+  customization?: Customization;
   store?: Store;
 }
 
-const AsgardeoProvider: FC<PropsWithChildren<AsgardeProviderProps>> = (
-  props: PropsWithChildren<AsgardeProviderProps>,
-) => {
-  const {children, config, store} = props;
-
+const AsgardeoProvider: FC<PropsWithChildren<AsgardeProviderProps>> = ({
+  children,
+  config,
+  store,
+  customization,
+}: PropsWithChildren<AsgardeProviderProps>) => {
   const [accessToken, setAccessToken] = useState<string>('');
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>();
   const [user, setUser] = useState<MeAPIResponse>();
@@ -98,7 +102,11 @@ const AsgardeoProvider: FC<PropsWithChildren<AsgardeProviderProps>> = (
     [accessToken, config, isAuthenticated, setAuthentication, user],
   );
 
-  return <AsgardeoContext.Provider value={value}>{children}</AsgardeoContext.Provider>;
+  return (
+    <AsgardeoContext.Provider value={value}>
+      <BrandingPreferenceProvider customization={customization}>{children}</BrandingPreferenceProvider>
+    </AsgardeoContext.Provider>
+  );
 };
 
 export default AsgardeoProvider;

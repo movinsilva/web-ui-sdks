@@ -16,31 +16,160 @@
  * under the License.
  */
 
-import {Button, SignIn as OSI} from '@oxygen-ui/react';
+import {AsgardeoUIException, AuthApiResponse, AuthClient, Authenticator, Customization, FlowStatus, ScreenType, UIAuthClient, authenticate, authorize} from '@asgardeo/js-ui-core';
+import {Button, CircularProgress, SignIn as OSI} from '@oxygen-ui/react';
+import {FC, ReactElement, useContext, useEffect, useState} from 'react';
 import UISignIn from '../ui-components/UISignIn';
+import './sign-in.scss';
+import { i18nAddResources } from '../../customization/i18n';
+import SPACryptoUtils from '../../utils/crypto-utils';
+import { ConnectionManagementConstants } from '../../constants/connection-constants';
+import BasicAuth from './fragments/BasicAuth';
+import { AsgardeoContext, AuthContext } from '../AsgardeoProvider/asgardeo-context';
+import LoginOptionsBox from './fragments/LoginOptionsBox';
 
-const SignIn: FC = props => {
-  const {customization} = props;
+interface SignInProps {
+  customization: Customization;
+}
+
+const SignIn: FC = ({customization}: SignInProps) => {
+  const [authResponse, setAuthResponse] = useState<AuthApiResponse>();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string>();
+  const [isRetry, setIsRetry] = useState(false);
+  const [showSelfSignUp, setShowSelfSignUp] = useState(true);
+
+  const authContext: AuthContext | undefined = useContext(AsgardeoContext);
+
+  useEffect(() => {
+    authorize()
+      .then((response: AuthApiResponse) => {
+        console.log('Authorization called with result:', response);
+        setAuthResponse(response);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        setError('Authorization failed');
+        setIsLoading(false);
+        throw new AsgardeoUIException('Authorization failed', error);
+      });
+
+    /* Loading text resources */
+    i18nAddResources({
+      brandingProps: customization,
+      screen: ScreenType.Common
+    });
+  }, []);
+
+
+ /**
+   * Handles the generalized authentication process.
+   * @param {any} authParams - The authentication parameters.
+   */
+ const handleAuthenticate = async (authParams: any, authenticatorId: string): Promise<void> => {
+  if (authResponse === undefined) {
+    throw new AsgardeoUIException('REACT_UI-SIGNIN-HA', 'Auth response is undefined.');
+  }
+  setIsLoading(true);
+  const resp: AuthApiResponse = await authenticate({
+    selectedAuthenticator: {
+      authenticatorId: authenticatorId,
+      params: authParams,
+    },
+    flowId: authResponse.flowId,
+  });
+  console.log('Authenticate response:', resp);
+
+  // when the authentication is successful, generate the token
+  if (resp.flowStatus === FlowStatus.SuccessCompleted && resp.authData) {
+    console.log('successful authentication');
+    setAuthResponse(resp);
+    const authInstance: UIAuthClient = AuthClient.getInstance();
+    const state: string = (await authInstance.getDataLayer().getTemporaryDataParameter('state')).toString();
+    await authInstance.requestAccessToken(resp.authData.code, resp.authData.session_state, state);
+    authContext.setAuthentication();
+  } else if (resp.flowStatus === FlowStatus.FailIncomplete) {
+    setAuthResponse({
+      ...resp,
+      nextStep: authResponse.nextStep,
+    });
+    setIsRetry(true);
+  } else {
+    setAuthResponse(resp);
+    setShowSelfSignUp(false);
+  }
+  setIsLoading(false);
+};
+
+
+const renderLoginOptions = (authenticators: Authenticator[]): ReactElement[] => {
+
+  const LoginOptions: ReactElement[] = [];
+    {authenticators.forEach((authenticator: Authenticator) => {
+        LoginOptions.push(<LoginOptionsBox socialName={authenticator.authenticator}/>)
+    })}
+
+    return LoginOptions;
+  
+}
+
+  interface RenderSignInProps {
+    authResponse: AuthApiResponse;
+  }
+  const renderSignIn = ({authResponse}: RenderSignInProps) => {
+    const authenticators = authResponse.nextStep.authenticators;
+    let SignInCore: JSX.Element = <div />;
+
+    if (authenticators) {
+      let usernamePassword: boolean = false;
+      let isMultipleAuthenticators: boolean = false;
+      let usernamePasswordID: string = '';
+
+      if (authenticators.length > 1) {
+        isMultipleAuthenticators = true;
+      }
+
+      authenticators.forEach((authenticator: Authenticator) => {
+        if (authenticator.authenticatorId.includes(ConnectionManagementConstants.BASIC_AUTHENTICATOR_ID)) {
+
+          usernamePassword = true;
+          usernamePasswordID = authenticator.authenticatorId;
+          SignInCore = 
+              <BasicAuth 
+                  customization={customization}
+                  authenticatorId={authenticator.authenticatorId} 
+                  handleAuthenticate={handleAuthenticate} 
+                  showSelfSignUp={showSelfSignUp}
+                  isRetry={isRetry}
+                  renderLoginOptions={renderLoginOptions(authenticators.filter((auth) => auth.authenticatorId !== usernamePasswordID))}
+              />
+        }
+      });
+    }
+
+    const cryptoUtils = new SPACryptoUtils();
+    const decodedAuthenticator = cryptoUtils.base64URLDecode(authResponse.nextStep.authenticators[0].authenticatorId);
+    console.log('decodedAuthenticator: ', decodedAuthenticator)
+
+    return (
+    <UISignIn>
+      {SignInCore}
+    </UISignIn>)
+  }
 
   return (
     <>
-      <UISignIn>
-        <UISignIn.Root>
-          <UISignIn.Title>Sign In</UISignIn.Title>
-          {/* <UISignIn.Title subtitle>Sign in to your account</UISignIn.Title> */}
-          <UISignIn.InputField fullWidth placeholder="Username" label="Username" />
-          <UISignIn.InputField placeholder="Enter your password" label="Password" type="password" />
-          <UISignIn.RememberMe />
-          <UISignIn.Button color="primary" variant="contained" type="submit" fullWidth>
-            Sign In
-          </UISignIn.Button>
-          <UISignIn.OptionDivider> OR</UISignIn.OptionDivider>
-          <UISignIn.Button social fullWidth type="button" variant="contained">
-            Sign In With Google
-          </UISignIn.Button>
-          <UISignIn.Register signUpUrl="/register" />
-        </UISignIn.Root>
-      </UISignIn>
+      {isLoading ? (
+        <div className="circular-progress-holder">
+          <CircularProgress className="circular-progress" />
+        </div>
+      ) : error ? (
+        // TODO: Style this
+        <div>
+          <h1>Error</h1>
+          <p>{error}</p>
+        </div>
+      ) : renderSignIn({authResponse})}
       <OSI
         sx={{marginTop: '5rem'}}
         signInOptions={

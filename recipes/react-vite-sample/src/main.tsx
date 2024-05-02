@@ -12,11 +12,9 @@ const config: UIAuthConfig = {
 };
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
     <AsgardeoProvider config={
       config
     }>
     <App />
     </AsgardeoProvider>
-  </React.StrictMode>,
 )

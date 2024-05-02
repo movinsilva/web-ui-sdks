@@ -16,9 +16,9 @@
  * under the License.
  */
 
-import {Button, Checkbox, Divider, FormControlLabel, FormGroup, Grid, Link, Paper, TextField, Typography} from '@oxygen-ui/react';
+import {Box, Button, Checkbox, Divider, FormControlLabel, FormGroup, Grid, Link, Paper, TextField, Typography} from '@oxygen-ui/react';
 import clsx from 'clsx';
-import {ComponentPropsWithoutRef, ElementRef, ForwardRefExoticComponent, ForwardedRef, forwardRef} from 'react';
+import {Children, ComponentPropsWithoutRef, ElementRef, FC, ForwardRefExoticComponent, ForwardedRef, forwardRef} from 'react';
 import './compound-components.scss';
 
 /******************
@@ -26,7 +26,7 @@ import './compound-components.scss';
  ******************/
 type SignInRootElement = ElementRef<typeof Paper>;
 type RootProps = ComponentPropsWithoutRef<typeof Paper>;
-interface SignInRootProps extends RootProps {}
+export interface SignInRootProps extends RootProps {}
 
 const SignInRoot: ForwardRefExoticComponent<SignInRootProps> = forwardRef<SignInRootElement, SignInRootProps>(
   (props: SignInRootProps, forwardedRef: ForwardedRef<unknown>) => {
@@ -41,7 +41,7 @@ const SignInRoot: ForwardRefExoticComponent<SignInRootProps> = forwardRef<SignIn
  *******************/
 type SignInTitleElement = ElementRef<typeof Typography>;
 type TitleProps = ComponentPropsWithoutRef<typeof Typography>;
-interface SignInTitleProps extends TitleProps {
+export interface SignInTitleProps extends TitleProps {
   subtitle?: boolean;
 }
 
@@ -60,53 +60,74 @@ const SignInTitle: ForwardRefExoticComponent<SignInTitleProps> = forwardRef<Sign
  *   SignInInputField   *
  ************************/
 type SignInInputFieldElement = ElementRef<typeof TextField>;
-type InputFieldProps = ComponentPropsWithoutRef<typeof TextField>;
+export type InputFieldProps = ComponentPropsWithoutRef<typeof TextField>;
 
 const SignInInputField: ForwardRefExoticComponent<InputFieldProps> = forwardRef<SignInInputFieldElement, InputFieldProps>(
-  (props: InputFieldProps, forwardedRef) => {
-    const classes: string = clsx('ui-sign-in-input-field', props['className']);
-    return <TextField fullWidth required className={classes} ref={forwardedRef} {...props} />;
+  ({className, ...rest}: InputFieldProps, forwardedRef) => {
+    const classes: string = clsx('ui-sign-in-input-field', className);
+    return <TextField fullWidth required InputLabelProps={{className: 'ui-sign-in-input-field-label'}} className={classes} ref={forwardedRef} {...rest} />;
   },
 );
+
 
 /********************
  *   SignInButton   *
  ********************/
 type SignInButtonElement = ElementRef<typeof Button>;
 type ButtonProps = ComponentPropsWithoutRef<typeof Button>;
-interface SignInButtonProps extends ButtonProps {
+export interface SignInButtonProps extends ButtonProps {
   social?: boolean;
 }
 
 const SignInButton: ForwardRefExoticComponent<SignInButtonProps> = forwardRef<SignInButtonElement, SignInButtonProps>(
   (props: SignInButtonProps, forwardedRef) => {
-    const {social, ...rest} = props;
-    const className: string = social ? 'ui-sign-in-option-social' : 'ui-sign-in-button';
-    const classes: string = clsx(className, props['className']);
+    const {social, className, ...rest} = props;
+    const classNameAppended: string = social ? 'ui-sign-in-option-social' : 'ui-sign-in-button';
+    const classes: string = clsx(classNameAppended, className);
     return <Button className={classes} ref={forwardedRef} {...rest} />;
   },
 );
 
-const RegisterLink = ({signUpUrl}) => {
-  return <Grid container className="oxygen-sign-in-sign-up-link">
-  <Grid>Don&apos;t have an account?</Grid>
-  <Grid>
-    <Link href={signUpUrl} className="oxygen-sign-in-sign-up-link-action">
-      Sign up
-    </Link>
-  </Grid>
-</Grid>
+
+/********************
+ *   RegisterLink   *
+ ********************/
+export interface RegisterLinkProps {
+  signUpUrl: string;
 }
 
+const RegisterLink = ({signUpUrl}: RegisterLinkProps) => {
+  return (
+      <Grid container className="oxygen-sign-in-sign-up-link">
+        <Grid>Don&apos;t have an account?</Grid>
+        <Grid>
+          <Link href={signUpUrl} className="oxygen-sign-in-sign-up-link-action">
+            Register
+          </Link>
+        </Grid>
+      </Grid>
+  )
+}
+
+
+/******************
+ *   RememberMe   *
+ ******************/
 const RememberMe = () => {
-  return <FormGroup>
-     <FormControlLabel control={<Checkbox />} label="Remember me on this computer" />
-  </FormGroup>
+  return  (
+      <FormGroup>
+        <FormControlLabel control={<Checkbox />} label="Remember me on this computer" />
+      </FormGroup>
+  )
 }
 
+
+/***************************
+ *   SignInOptionDivider   *
+ ***************************/
 type SignInOptionDividerElement = ElementRef<typeof Divider>;
 type OptionDividerProps = ComponentPropsWithoutRef<typeof Divider>;
-interface SignInOptionDividerProps extends OptionDividerProps {}
+export interface SignInOptionDividerProps extends OptionDividerProps {}
 
 const SignInOptionDivider: ForwardRefExoticComponent<SignInOptionDividerProps> = forwardRef<SignInOptionDividerElement, SignInOptionDividerProps>(
   (props: SignInOptionDividerProps, forwardedRef) => {
@@ -115,4 +136,30 @@ const SignInOptionDivider: ForwardRefExoticComponent<SignInOptionDividerProps> =
   },
 );
 
-export {SignInRoot, SignInTitle, SignInInputField, SignInButton, RegisterLink, RememberMe, SignInOptionDivider};
+/*****************
+ *   RetryText   *
+ *****************/
+type RetryTextProps = ComponentPropsWithoutRef<typeof Box>;
+export interface SignInRetryTextProps extends RetryTextProps {}
+const SignInRetryText:FC = ({children, className, ...rest}: SignInRetryTextProps) => {
+  const classes: string = clsx('oxygen-sign-in-retry-text', className );
+  return (
+      <Box className={classes} {...rest}>
+          <Typography className="oxygen-sign-in-error">
+            {children}
+          </Typography>
+      </Box>
+  )
+}
+
+
+export {
+  SignInRoot,
+  SignInTitle,
+  SignInInputField,
+  SignInButton,
+  RegisterLink,
+  RememberMe,
+  SignInOptionDivider,
+  SignInRetryText
+};

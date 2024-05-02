@@ -18,11 +18,23 @@
 
 import {Box} from '@oxygen-ui/react';
 import clsx from 'clsx';
-import {FC, PropsWithChildren} from 'react';
-import {RegisterLink, RememberMe, SignInButton, SignInInputField, SignInOptionDivider, SignInRoot, SignInTitle} from './CompoundComponents';
+import {FC, ForwardRefExoticComponent, PropsWithChildren, ReactNode} from 'react';
+import {InputFieldProps, RegisterLink, RegisterLinkProps, RememberMe, SignInButton, SignInButtonProps, SignInInputField, SignInOptionDivider, SignInOptionDividerProps, SignInRetryText, SignInRetryTextProps, SignInRoot, SignInRootProps, SignInTitle, SignInTitleProps} from './CompoundComponents';
 import './ui-sign-in.scss';
 
-const UISignIn: FC<PropsWithChildren> = props => {
+interface UISignInProps extends PropsWithChildren {
+}
+
+const UISignIn: FC<UISignInProps> & {Title?: ForwardRefExoticComponent<SignInTitleProps>,
+  
+  InputField?: ForwardRefExoticComponent<InputFieldProps>;
+  Root?: ForwardRefExoticComponent<SignInRootProps>;
+  Button?: ForwardRefExoticComponent<SignInButtonProps>;
+  Register?: FC<RegisterLinkProps>;
+  RememberMe?: FC;
+  OptionDivider?: ForwardRefExoticComponent<SignInOptionDividerProps>;
+  RetryText?: FC<SignInRetryTextProps>;
+} = props => {
   const {children} = props;
   const classes: string = clsx('ui-sign-in', props['className']);
 
@@ -36,5 +48,6 @@ UISignIn.Button = SignInButton;
 UISignIn.Register = RegisterLink;
 UISignIn.RememberMe = RememberMe;
 UISignIn.OptionDivider = SignInOptionDivider;
+UISignIn.RetryText = SignInRetryText;
 
 export default UISignIn;

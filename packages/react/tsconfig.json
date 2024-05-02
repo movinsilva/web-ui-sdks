@@ -23,7 +23,6 @@
       "noPropertyAccessFromIndexSignature": true,
       "noImplicitReturns": true,
       "noFallthroughCasesInSwitch": true,
-      "baseUrl": ".",
   },
     "include": [],
     "files": [],

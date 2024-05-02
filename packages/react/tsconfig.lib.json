@@ -22,6 +22,6 @@
       "scripts",
       "dist"
     ],
-    "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", "rollup.config.cjs"]
+    "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", "rollup.config.cjs", "declarations.d.ts"]
   }
   

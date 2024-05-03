@@ -18,16 +18,16 @@
 
 import {Box} from '@oxygen-ui/react';
 import clsx from 'clsx';
-import {FC, ForwardRefExoticComponent, PropsWithChildren, ReactNode} from 'react';
-import {InputFieldProps, RegisterLink, RegisterLinkProps, RememberMe, SignInButton, SignInButtonProps, SignInInputField, SignInOptionDivider, SignInOptionDividerProps, SignInRetryText, SignInRetryTextProps, SignInRoot, SignInRootProps, SignInTitle, SignInTitleProps} from './CompoundComponents';
+import {FC, ForwardRefExoticComponent, PropsWithChildren} from 'react';
+import {InputFieldProps, RegisterLink, RegisterLinkProps, RememberMe, SignInButton, SignInButtonProps, SignInInputField, SignInOptionDivider, SignInOptionDividerProps, SignInRetryText, SignInRetryTextProps, SignInRoot, SignInRootProps, SignInTypography, SignInTypographyProps} from './CompoundComponents';
 import './ui-sign-in.scss';
-import PinInput from './PINInputField';
+import PinInput, { PinInputProps } from './PINInputField';
 
 interface UISignInProps extends PropsWithChildren {
 }
 
 const UISignIn: FC<UISignInProps> & {
-  Title?: ForwardRefExoticComponent<SignInTitleProps>,
+  Typography?: ForwardRefExoticComponent<SignInTypographyProps>,
   InputField?: ForwardRefExoticComponent<InputFieldProps>;
   Root?: ForwardRefExoticComponent<SignInRootProps>;
   Button?: ForwardRefExoticComponent<SignInButtonProps>;
@@ -35,7 +35,7 @@ const UISignIn: FC<UISignInProps> & {
   RememberMe?: FC;
   OptionDivider?: ForwardRefExoticComponent<SignInOptionDividerProps>;
   RetryText?: FC<SignInRetryTextProps>;
-  PINInput?: FC;
+  PINInput?: FC<PinInputProps>;
 } = props => {
   const {children} = props;
   const classes: string = clsx('ui-sign-in', props['className']);
@@ -43,7 +43,7 @@ const UISignIn: FC<UISignInProps> & {
   return <Box className={classes}>{children}</Box>;
 };
 
-UISignIn.Title = SignInTitle;
+UISignIn.Typography = SignInTypography;
 UISignIn.InputField = SignInInputField;
 UISignIn.Root = SignInRoot;
 UISignIn.Button = SignInButton;

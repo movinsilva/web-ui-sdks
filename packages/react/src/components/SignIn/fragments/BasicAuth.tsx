@@ -67,9 +67,9 @@ const BasicAuth = ({
   }
   return (
     <UISignIn.Root>
-      <UISignIn.Title>
+      <UISignIn.Typography title>
         <Trans i18nKey={keys.login.login.heading} />
-      </UISignIn.Title>
+      </UISignIn.Typography>
 
       {isRetry && (
         <UISignIn.RetryText>Login failed! Please check your username and password and try again.</UISignIn.RetryText>

@@ -39,17 +39,18 @@ const SignInRoot: ForwardRefExoticComponent<SignInRootProps> = forwardRef<SignIn
 /*******************
  *   SignInTitle   *
  *******************/
-type SignInTitleElement = ElementRef<typeof Typography>;
-type TitleProps = ComponentPropsWithoutRef<typeof Typography>;
-export interface SignInTitleProps extends TitleProps {
+type SignInTypographyElement = ElementRef<typeof Typography>;
+type TypographyProps = ComponentPropsWithoutRef<typeof Typography>;
+export interface SignInTypographyProps extends TypographyProps {
   subtitle?: boolean;
+  title?: boolean;
 }
 
-const SignInTitle: ForwardRefExoticComponent<SignInTitleProps> = forwardRef<SignInTitleElement, SignInTitleProps>(
-  (props: SignInTitleProps, forwardedRef: ForwardedRef<unknown>) => {
-    const {subtitle, ...rest} = props;
-    const classname = subtitle ? 'ui-sign-in-subtitle' : 'ui-sign-in-title';
-    const variant = subtitle ? 'subtitle1' : 'h5';
+const SignInTypography: ForwardRefExoticComponent<SignInTypographyProps> = forwardRef<SignInTypographyElement, SignInTypographyProps>(
+  (props: SignInTypographyProps, forwardedRef: ForwardedRef<unknown>) => {
+    const {subtitle, title, ...rest} = props;
+    const classname = subtitle ? 'ui-sign-in-subtitle' : title ? 'ui-sign-in-title' :  'ui-sign-in-typography'
+    const variant = subtitle ? 'subtitle1' : title ? 'h5' : 'body1';
     const classes: string = clsx(classname, props['className']);
     return <Typography className={classes} ref={forwardedRef} align="center" variant={variant} {...rest} />;
   },
@@ -156,7 +157,7 @@ const SignInRetryText:FC = ({children, className, ...rest}: SignInRetryTextProps
 
 export {
   SignInRoot,
-  SignInTitle,
+  SignInTypography,
   SignInInputField,
   SignInButton,
   RegisterLink,

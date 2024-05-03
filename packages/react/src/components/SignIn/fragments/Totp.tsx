@@ -17,8 +17,9 @@
  */
 
 import {Customization, ScreenType, keys} from '@asgardeo/js-ui-core';
+import {CircularProgress, Link} from '@oxygen-ui/react';
 import i18next from 'i18next';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, ReactElement} from 'react';
 import {Trans} from 'react-i18next';
 import {i18nAddResources} from '../../../customization/i18n';
 import {useBrandingPreference} from '../../BrandingPreferenceProvider/branding-preference-context';
@@ -30,7 +31,7 @@ interface TotpProps {
   handleAuthenticate: Function;
 }
 
-const Totp = ({customization, authenticatorId, handleAuthenticate}: TotpProps): FC => {
+const Totp = ({customization, authenticatorId, handleAuthenticate}: TotpProps): ReactElement => {
   const brandingProps: Customization = useBrandingPreference();
   console.log('totp rendering');
 
@@ -52,15 +53,23 @@ const Totp = ({customization, authenticatorId, handleAuthenticate}: TotpProps): 
     });
   }, [brandingProps, customization]);
 
+  if (isTextLoading) {
+    return (
+      <div className="circular-progress-holder">
+        <CircularProgress className="circular-progress" />
+      </div>
+    );
+  }
+
   return (
     <UISignIn.Root>
-      <UISignIn.Title>
+      <UISignIn.Typography title>
         <Trans i18nKey={keys.totp.heading} />
-      </UISignIn.Title>
+      </UISignIn.Typography>
 
-      <UISignIn.Title subtitle>
+      <UISignIn.Typography subtitle>
         <Trans i18nKey={keys.totp.enter.verification.code.got.by.device} />
-      </UISignIn.Title>
+      </UISignIn.Typography>
 
       <UISignIn.PINInput length={6} onPinChange={setTotp} />
 
@@ -74,11 +83,14 @@ const Totp = ({customization, authenticatorId, handleAuthenticate}: TotpProps): 
       >
         <Trans i18nKey={keys.totp.continue} />
       </UISignIn.Button>
-      <UISignIn.Title subtitle>
+      <UISignIn.Typography subtitle>
         <Trans i18nKey={keys.totp.enroll.message1} />
         <br />
         <Trans i18nKey={keys.totp.enroll.message2} />
-      </UISignIn.Title>
+      </UISignIn.Typography>
+      <Link href="./somewhere">
+        <Trans i18nKey={keys.totp.enroll.message2} />
+      </Link>
     </UISignIn.Root>
   );
 };

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect} from 'react';
 import './pin-input-field.scss'
 import { TextField } from '@oxygen-ui/react';
 
-interface PinInputProps {
+export interface PinInputProps {
   length: number;
   onPinChange: (pin: string) => void;
 }

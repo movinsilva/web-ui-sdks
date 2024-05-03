@@ -33,6 +33,10 @@
     "access": "public"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-image": "^3.0.3",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "^20.12.7",
     "@types/randombytes": "^2.0.3",
     "@types/react": "^18.2.79",
@@ -44,6 +48,8 @@
     "prettier": "^3.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-styles": "^4.0.0",
     "sass": "^1.75.0",
     "stylelint": "^16.4.0",
     "tslib": "^2.6.2",

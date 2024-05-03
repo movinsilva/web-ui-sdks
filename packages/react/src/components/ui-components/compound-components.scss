@@ -1,7 +1,7 @@
 .ui-sign-in-paper {
     padding: 32px;
     min-width: 350px;
-    max-width: 500px;
+    max-width: 420px;
     padding-bottom: 55px;
 }
 
@@ -9,7 +9,8 @@
 }
 
 .ui-sign-in-subtitle {
-    color: grey;
+    margin: 16px 0 24px 0;
+    line-height: 18px;
 }
 
 .ui-sign-in-input-field {

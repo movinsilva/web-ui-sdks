@@ -23,6 +23,7 @@ import {AuthClient} from '../auth-client';
 import {BrandingPreferenceTextAPIResponse} from '../models/branding-text-api-response';
 import {Customization} from '../models/customization';
 import {ScreenType} from '../models/screen-type';
+import { BrandingPreferenceTypes } from 'src/models/branding-api-response';
 
 /**
  * Interface for getLocalization function props.
@@ -59,14 +60,18 @@ const getLocalization = async (props: GetLocalization): Promise<TextObject> => {
 
   let textFromConsoleBranding: BrandingPreferenceTextAPIResponse;
 
+ try {
   if ((await AuthClient.getInstance().getDataLayer().getConfigData()).enableConsoleTextBranding ?? true) {
     textFromConsoleBranding = await getBrandingPreferenceText(
       locale,
-      providerCustomization.name,
+      providerCustomization?.name ?? "carbon.super",
       screen,
-      providerCustomization.type,
+      providerCustomization?.type ?? BrandingPreferenceTypes.Org,
     );
   }
+} catch (error) {
+  console.log('Error while fetching text from console branding.', error);
+}
 
   /**
    * Merge text objects according to the priority

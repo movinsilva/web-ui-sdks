@@ -49,6 +49,8 @@ export const i18nAddResources = async (props: I18nAddResourcesProps): Promise<bo
     screen,
   });
 
+  console.log('i18n resources: ', resources);
+
   i18n.addResourceBundle(locale, 'ns', {
     [screen]: resources,
   });

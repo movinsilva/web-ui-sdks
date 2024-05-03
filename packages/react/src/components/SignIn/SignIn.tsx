@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import {AsgardeoUIException, AuthApiResponse, AuthClient, Authenticator, Customization, FlowStatus, ScreenType, UIAuthClient, authenticate, authorize} from '@asgardeo/js-ui-core';
+import {AsgardeoUIException, AuthApiResponse, AuthClient, Authenticator, Customization, FlowStatus, Metadata, ScreenType, UIAuthClient, authenticate, authorize} from '@asgardeo/js-ui-core';
 import {Button, CircularProgress, SignIn as OSI} from '@oxygen-ui/react';
 import {FC, ReactElement, useContext, useEffect, useState} from 'react';
 import UISignIn from '../ui-components/UISignIn';
@@ -25,8 +25,9 @@ import { i18nAddResources } from '../../customization/i18n';
 import SPACryptoUtils from '../../utils/crypto-utils';
 import { ConnectionManagementConstants } from '../../constants/connection-constants';
 import BasicAuth from './fragments/BasicAuth';
-import { AsgardeoContext, AuthContext } from '../AsgardeoProvider/asgardeo-context';
+import { AsgardeoContext, AuthContext, useConfig } from '../AsgardeoProvider/asgardeo-context';
 import LoginOptionsBox from './fragments/LoginOptionsBox';
+import Totp from './fragments/Totp';
 
 interface SignInProps {
   customization: Customization;
@@ -40,6 +41,8 @@ const SignIn: FC = ({customization}: SignInProps) => {
   const [showSelfSignUp, setShowSelfSignUp] = useState(true);
 
   const authContext: AuthContext | undefined = useContext(AsgardeoContext);
+
+  const {config} = useConfig();
 
   useEffect(() => {
     authorize()
@@ -102,12 +105,59 @@ const SignIn: FC = ({customization}: SignInProps) => {
 };
 
 
+const getAuthenticationInfo = async (authenticatorId: string): Promise<void> => {
+  if (authResponse === undefined) {
+    throw new AsgardeoUIException('REACT_UI-SIGNIN-HAO', 'Auth response is undefined.');
+  }
+  setIsLoading(true);
+  const resp: AuthApiResponse = await authenticate({
+    selectedAuthenticator: {
+      authenticatorId: authenticatorId
+    },
+    flowId: authResponse.flowId,
+  });
+  console.log('Authenticate response:', resp);
+  const metaData: Metadata = resp.nextStep.authenticators[0].metadata;
+  if (metaData.promptType === 'REDIRECTION_PROMPT') {
+    window.open(
+      metaData.additionalData?.redirectUrl,
+      resp.nextStep.authenticators[0].authenticator,
+      'width=500,height=600',
+    );
+
+    // Add an event listener to the window to capture the message from the popup
+    window.addEventListener('message', function messageEventHandler(event: MessageEvent) {
+      // Check the origin of the message to ensure it's from the popup window
+      if (event.origin !== config.signInRedirectURL) return;
+
+      const {code, state} = event.data;
+
+      if (code && state) {
+        handleAuthenticate({code, state}, resp.nextStep.authenticators[0].authenticatorId);
+      }
+
+      // Remove the event listener
+      window.removeEventListener('message', messageEventHandler);
+    });
+  } else if (metaData.promptType === 'USER_PROMPT') {
+    setAuthResponse(resp);
+  }
+  setIsLoading(false);
+};
+
+
 const renderLoginOptions = (authenticators: Authenticator[]): ReactElement[] => {
 
   const LoginOptions: ReactElement[] = [];
     {authenticators.forEach((authenticator: Authenticator) => {
-        LoginOptions.push(<LoginOptionsBox socialName={authenticator.authenticator}/>)
-    })}
+        LoginOptions.push(
+        <LoginOptionsBox 
+            socialName={authenticator.authenticator} 
+            handleOnClick={() => getAuthenticationInfo(authenticator.authenticatorId)}
+            key={authenticator.authenticatorId}
+        />
+      )}
+    )}
 
     return LoginOptions;
   
@@ -144,8 +194,20 @@ const renderLoginOptions = (authenticators: Authenticator[]): ReactElement[] => 
                   renderLoginOptions={renderLoginOptions(authenticators.filter((auth) => auth.authenticatorId !== usernamePasswordID))}
               />
         }
-      });
-    }
+    });
+
+    if (authenticators.length === 1) {
+      console.log('authenticators: ', authenticators[0].authenticator)
+      if(authenticators[0].authenticator === 'TOTP') {
+        console.log('TOTP authenticator found');
+        SignInCore = <Totp 
+                        customization={customization}
+                        authenticatorId={authenticators[0].authenticatorId}
+                        handleAuthenticate={handleAuthenticate}
+                      />
+      }
+    };
+  }
 
     const cryptoUtils = new SPACryptoUtils();
     const decodedAuthenticator = cryptoUtils.base64URLDecode(authResponse.nextStep.authenticators[0].authenticatorId);

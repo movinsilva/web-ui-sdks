@@ -32,7 +32,7 @@ const BrandingPreferenceProvider: FC<PropsWithChildren<BrandingPreferenceProvide
   children,
   customization,
 }: PropsWithChildren<BrandingPreferenceProviderProps>) => {
-  const [brandingPreference, setBrandingPreference] = useState<Customization>(undefined);
+  const [brandingPreference, setBrandingPreference] = useState<Customization>();
 
   useEffect(() => {
     getBranding({customization}).then((response: Customization) => {

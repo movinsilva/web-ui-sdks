@@ -48,3 +48,18 @@ export const useAuthentication = (): UseAuthenticationResponse => {
 
   return {accessToken, isAuthenticated, signOut, user};
 };
+
+interface UseConfigResponse {
+  config: UIAuthConfig;
+}
+
+/**
+ * Custom hook to access the authentication configuration from the AsgardeoProviderContext.
+ * @returns An object containing the authentication configuration.
+ */
+export const useConfig = (): UseConfigResponse => {
+  const {config} = useContext(AsgardeoContext) as {
+    config: UIAuthConfig;
+  };
+  return {config};
+};

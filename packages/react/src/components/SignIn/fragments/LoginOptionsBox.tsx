@@ -29,8 +29,17 @@ const images: {[key: string]: string} = {
   Microsoft: microsoft,
 };
 
-const LoginOptionsBox = ({socialName}): JSX.Element => (
-  <UISignIn.Button social startIcon={<img className="social-login-img" src={images[socialName]} alt={socialName} />}>
+const LoginOptionsBox = ({socialName, handleOnClick}): JSX.Element => (
+  <UISignIn.Button 
+      social 
+      startIcon={
+          <img 
+              className="social-login-img" 
+              src={images[socialName]} alt={socialName} 
+          />
+      }
+      onClick={handleOnClick}
+   >
     Sign In with {socialName}
   </UISignIn.Button>
 );

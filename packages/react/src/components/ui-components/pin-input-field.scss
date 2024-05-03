@@ -1,0 +1,20 @@
+.pin-code-input-fields {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    margin: 16px 0;
+
+    .MuiInputBase-input {
+      text-align: center;
+    }
+
+    input {
+      padding: 16px 0;
+      width: 45px;
+    }
+  }

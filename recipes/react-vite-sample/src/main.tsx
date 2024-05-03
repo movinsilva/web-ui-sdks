@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import { AsgardeoProvider, UIAuthConfig } from '../../../packages/react/src/index.ts';
@@ -15,6 +14,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <AsgardeoProvider config={
       config
     }>
-    <App />
+        <App />
     </AsgardeoProvider>
 )

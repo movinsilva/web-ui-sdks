@@ -1,5 +1,5 @@
 import { BrandingPreferenceThemeInterface } from "@asgardeo/js-ui-core";
-import { isEmpty } from "../utils/common";
+import { isEmpty } from "../../utils/common";
 
 const getThemeSkeleton = (theme: BrandingPreferenceThemeInterface): string => {
 

@@ -17,11 +17,11 @@
  */
 
 import {AsgardeoUIException, AuthApiResponse, AuthClient, Authenticator, Customization, FlowStatus, Metadata, ScreenType, UIAuthClient, authenticate, authorize} from '@asgardeo/js-ui-core';
-import {Button, CircularProgress, SignIn as OSI} from '@oxygen-ui/react';
+import {CircularProgress, SignIn as OSI} from '@oxygen-ui/react';
 import {FC, ReactElement, useContext, useEffect, useState} from 'react';
 import UISignIn from '../../ui-auth-components/UISignIn';
 import './sign-in.scss';
-import { i18nAddResources } from '../../../customization/i18n';
+import { i18nAddResources } from '../../../customization/text/i18n';
 import SPACryptoUtils from '../../../utils/crypto-utils';
 import { ConnectionManagementConstants } from '../../../constants/connection-constants';
 import BasicAuth from './fragments/BasicAuth';
@@ -29,6 +29,7 @@ import { AsgardeoContext, AuthContext, useAuthentication, useConfig } from '../A
 import LoginOptionsBox from './fragments/LoginOptionsBox';
 import Totp from './fragments/Totp';
 import EmailOtp from './fragments/EmailOtp';
+import { useBrandingPreference } from '../BrandingPreferenceProvider/branding-preference-context';
 
 interface SignInProps {
   customization: Customization;
@@ -156,6 +157,7 @@ const renderLoginOptions = (authenticators: Authenticator[]): ReactElement[] => 
         LoginOptions.push(
         <LoginOptionsBox 
             socialName={authenticator.authenticator} 
+            idp={authenticator.idp}
             handleOnClick={() => getAuthenticationInfo(authenticator.authenticatorId)}
             key={authenticator.authenticatorId}
         />
@@ -233,8 +235,12 @@ const renderLoginOptions = (authenticators: Authenticator[]): ReactElement[] => 
   }
 
   const renderSignInComponent =({authResponse}: RenderSignInProps) => {
+
+    const brandingPreference = useBrandingPreference();
+    const imgUrl = brandingPreference.preference.theme.LIGHT.images.logo.imgURL;
     return (
       <UISignIn>
+        <UISignIn.Image src={imgUrl} />
         {authResponse?.flowStatus !== FlowStatus.SuccessCompleted && !isAuthenticated && renderSignIn({authResponse})}
         {(authResponse?.flowStatus === FlowStatus.SuccessCompleted || isAuthenticated) && (
           <div style={{backgroundColor: 'white', padding: '1rem'}}>Successfully Authenticated</div>

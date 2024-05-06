@@ -21,7 +21,7 @@ import {CircularProgress, Link} from '@oxygen-ui/react';
 import i18next from 'i18next';
 import {useState, useEffect, ReactElement} from 'react';
 import {Trans} from 'react-i18next';
-import {i18nAddResources} from '../../../../customization/i18n';
+import {i18nAddResources} from '../../../../customization/text/i18n';
 import UISignIn from '../../../ui-auth-components/UISignIn';
 import {useBrandingPreference} from '../../BrandingPreferenceProvider/branding-preference-context';
 
@@ -37,10 +37,6 @@ const Totp = ({customization, authenticatorId, handleAuthenticate}: TotpProps): 
 
   const [isTextLoading, setIsTextLoading] = useState<boolean>();
   const [totp, setTotp] = useState<string>(); // Initialize a state variable for the TOTP
-
-  useEffect(() => {
-    console.log('totp from outside: ', totp);
-  }, [totp]);
 
   useEffect(() => {
     i18nAddResources({
@@ -79,7 +75,7 @@ const Totp = ({customization, authenticatorId, handleAuthenticate}: TotpProps): 
         className="oxygen-sign-in-cta"
         type="submit"
         fullWidth
-        onClick={() => handleAuthenticate({totp}, authenticatorId)}
+        onClick={() => handleAuthenticate({token: totp}, authenticatorId)}
       >
         <Trans i18nKey={keys.totp.continue} />
       </UISignIn.Button>

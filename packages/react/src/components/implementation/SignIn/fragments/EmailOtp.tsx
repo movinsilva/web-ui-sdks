@@ -20,7 +20,7 @@ import {Authenticator, Customization, ScreenType} from '@asgardeo/js-ui-core';
 import {CircularProgress} from '@oxygen-ui/react';
 import i18next from 'i18next';
 import {ReactElement, useEffect, useState} from 'react';
-import {i18nAddResources} from '../../../../customization/i18n';
+import {i18nAddResources} from '../../../../customization/text/i18n';
 import UISignIn from '../../../ui-auth-components/UISignIn';
 import {useBrandingPreference} from '../../BrandingPreferenceProvider/branding-preference-context';
 

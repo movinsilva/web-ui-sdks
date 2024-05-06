@@ -12,12 +12,12 @@ const generateTheme: ({customization}: generateThemeProps) => Theme = ({customiz
     return extendTheme({
         colorSchemes: {
             dark: {
-                // brand: {
-                //     logo: {
-                //         main: brandingTheme?.images?.myAccountLogo?.imgURL 
-                //             ?? `${process.env.PUBLIC_URL}/assets/brands/asgardeo/images/asgardeo-logo-inverted.svg`
-                //     }
-                // },
+                brand: {
+                    logo: {
+                        main: brandingTheme?.images?.myAccountLogo?.imgURL 
+                            ?? `../assets/asgardeo-logo.svg`
+                    }
+                },
                 palette: {
                     customComponents: {
                         AppShell: {
@@ -50,12 +50,12 @@ const generateTheme: ({customization}: generateThemeProps) => Theme = ({customiz
                 }
             },
             light: {
-                // brand: {
-                //     logo: {
-                //         main: brandingTheme?.images?.myAccountLogo?.imgURL
-                //             ?? `${process.env.PUBLIC_URL}/assets/brands/asgardeo/images/asgardeo-logo.svg`
-                //     }
-                // },
+                brand: {
+                    logo: {
+                        main: brandingTheme?.images?.myAccountLogo?.imgURL
+                            ?? `../assets/asgardeo-logo.svg`
+                    }
+                },
                 palette: {
                     customComponents: {
                         AppShell: {

@@ -19,7 +19,7 @@ const devConfig: UIAuthConfig = {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <AsgardeoProvider config={
-      devConfig
+      config
     }>
         <App />
     </AsgardeoProvider>

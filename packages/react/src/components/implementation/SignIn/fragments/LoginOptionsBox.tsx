@@ -21,15 +21,17 @@ import github from '../../../../assets/social-logins/github.svg';
 import google from '../../../../assets/social-logins/google.svg';
 import microsoft from '../../../../assets/social-logins/microsoft.svg';
 import UISignIn from '../../../ui-auth-components/UISignIn';
+import emailSolid from '../../../../assets/email-solid.svg';
 
 const images: {[key: string]: string} = {
   Facebook: facebook,
   Github: github,
   Google: google,
   Microsoft: microsoft,
+  "Email OTP": emailSolid,
 };
 
-const LoginOptionsBox = ({socialName, handleOnClick}): JSX.Element => (
+const LoginOptionsBox = ({socialName, idp, handleOnClick}): JSX.Element => (
   <UISignIn.Button 
       social 
       startIcon={
@@ -40,7 +42,7 @@ const LoginOptionsBox = ({socialName, handleOnClick}): JSX.Element => (
       }
       onClick={handleOnClick}
    >
-    Sign In with {socialName}
+    Sign In with {idp}
   </UISignIn.Button>
 );
 

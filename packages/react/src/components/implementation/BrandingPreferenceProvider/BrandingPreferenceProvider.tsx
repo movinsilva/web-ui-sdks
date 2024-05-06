@@ -20,9 +20,9 @@ import {BrandingPreferenceThemeInterface, Customization, getBranding} from '@asg
 import {ThemeProvider} from '@oxygen-ui/react';
 import {FC, PropsWithChildren, useEffect, useMemo, useState} from 'react';
 import {BrandingPreferenceContext} from './branding-preference-context';
-import {i18nInitialize} from '../../../customization/i18n';
+import {i18nInitialize} from '../../../customization/text/i18n';
 import generateTheme from '../../../customization/theme';
-import getThemeSkeleton from '../../../customization/theme-skeleton';
+import getThemeSkeleton from '../../../customization/theme/theme-skeleton';
 
 interface BrandingPreferenceProviderProps {
   customization?: Customization;

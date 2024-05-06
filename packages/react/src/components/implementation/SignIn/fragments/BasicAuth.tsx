@@ -20,9 +20,9 @@ import {Customization, ScreenType, keys} from '@asgardeo/js-ui-core';
 import {CircularProgress} from '@oxygen-ui/react';
 import {ReactElement, useEffect, useState} from 'react';
 import {Trans, useTranslation} from 'react-i18next';
-import {i18nAddResources} from '../../../customization/i18n';
+import {i18nAddResources} from '../../../../customization/i18n';
+import UISignIn from '../../../ui-auth-components/UISignIn';
 import {useBrandingPreference} from '../../BrandingPreferenceProvider/branding-preference-context';
-import UISignIn from '../../ui-components/UISignIn';
 
 interface BasicAuthProps {
   authenticatorId: string;
@@ -112,11 +112,11 @@ const BasicAuth = ({
         {t(keys.login.button)}
       </UISignIn.Button>
 
+      {showSelfSignUp && <UISignIn.Register signUpUrl="/register" />}
+
       <UISignIn.OptionDivider> OR</UISignIn.OptionDivider>
 
       {renderLoginOptions}
-
-      {showSelfSignUp && <UISignIn.Register signUpUrl="/register" />}
     </UISignIn.Root>
   );
 };

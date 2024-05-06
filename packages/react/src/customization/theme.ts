@@ -1,5 +1,5 @@
 import { Customization, ThemeConfigInterface } from "@asgardeo/js-ui-core";
-import { extendTheme, Theme } from "@oxygen-ui/react";
+import { extendTheme, InputLabel, Theme } from "@oxygen-ui/react";
 
 interface generateThemeProps {
     customization: Customization;
@@ -12,12 +12,12 @@ const generateTheme: ({customization}: generateThemeProps) => Theme = ({customiz
     return extendTheme({
         colorSchemes: {
             dark: {
-                brand: {
-                    logo: {
-                        main: brandingTheme?.images?.myAccountLogo?.imgURL 
-                            ?? `${process.env.PUBLIC_URL}/assets/brands/asgardeo/images/asgardeo-logo-inverted.svg`
-                    }
-                },
+                // brand: {
+                //     logo: {
+                //         main: brandingTheme?.images?.myAccountLogo?.imgURL 
+                //             ?? `${process.env.PUBLIC_URL}/assets/brands/asgardeo/images/asgardeo-logo-inverted.svg`
+                //     }
+                // },
                 palette: {
                     customComponents: {
                         AppShell: {
@@ -50,12 +50,12 @@ const generateTheme: ({customization}: generateThemeProps) => Theme = ({customiz
                 }
             },
             light: {
-                brand: {
-                    logo: {
-                        main: brandingTheme?.images?.myAccountLogo?.imgURL
-                            ?? `${process.env.PUBLIC_URL}/assets/brands/asgardeo/images/asgardeo-logo.svg`
-                    }
-                },
+                // brand: {
+                //     logo: {
+                //         main: brandingTheme?.images?.myAccountLogo?.imgURL
+                //             ?? `${process.env.PUBLIC_URL}/assets/brands/asgardeo/images/asgardeo-logo.svg`
+                //     }
+                // },
                 palette: {
                     customComponents: {
                         AppShell: {
@@ -111,10 +111,10 @@ const generateTheme: ({customization}: generateThemeProps) => Theme = ({customiz
             MuiOutlinedInput: {
                 styleOverrides: {
                     input: {
-                        padding: "0.67857143em 1em"
-                    }
+                        padding: "0.67857143em 1em",
+                    },
                 }
-            }
+            },
         },
         customComponents: {
             AppShell: {

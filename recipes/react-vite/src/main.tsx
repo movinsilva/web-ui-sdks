@@ -1,6 +1,7 @@
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
-import { AsgardeoProvider, UIAuthConfig } from '../../../packages/react/src/index.ts';
+import { AsgardeoProvider, UIAuthConfig } from '@asgardeo/react-ui'
 
 const config: UIAuthConfig = {
   baseUrl: "https://localhost:9443",
@@ -10,17 +11,10 @@ const config: UIAuthConfig = {
   enableConsoleTextBranding: true,
 };
 
-const devConfig: UIAuthConfig = {
-  baseUrl: "https://dev.api.asgardeo.io/t/movinorg",
-  clientID: "kH5OfXOvpGLOvp1iAw4zQmNvv4oa",
-  scope: ["openid", "internal_login", "profile"],
-  signInRedirectURL: "https://localhost:5173",
-};
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <AsgardeoProvider config={
-      devConfig
-    }>
-        <App />
+  <React.StrictMode>
+    <AsgardeoProvider config={config}>
+      <App />
     </AsgardeoProvider>
+  </React.StrictMode>,
 )

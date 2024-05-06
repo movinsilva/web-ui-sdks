@@ -28,8 +28,8 @@ import {
 } from '@asgardeo/js-ui-core';
 import {FC, PropsWithChildren, useCallback, useEffect, useMemo, useState} from 'react';
 import {AsgardeoContext, AuthContext} from './asgardeo-context';
-import SPACryptoUtils from '../../utils/crypto-utils';
-import SessionStore from '../../utils/session-store';
+import SPACryptoUtils from '../../../utils/crypto-utils';
+import SessionStore from '../../../utils/session-store';
 import BrandingPreferenceProvider from '../BrandingPreferenceProvider/BrandingPreferenceProvider';
 
 interface AsgardeProviderProps {

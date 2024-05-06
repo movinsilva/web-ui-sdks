@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import {Buffer} from 'buffer';
+import { Buffer } from 'buffer';
 import {CryptoUtils, JWKInterface, AsgardeoUIException} from '@asgardeo/js-ui-core';
 import base64url from 'base64url';
 import sha256 from 'fast-sha256';

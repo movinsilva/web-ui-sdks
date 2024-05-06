@@ -19,7 +19,7 @@
 import {Box} from '@oxygen-ui/react';
 import clsx from 'clsx';
 import {FC, ForwardRefExoticComponent, PropsWithChildren} from 'react';
-import {InputFieldProps, RegisterLink, RegisterLinkProps, RememberMe, SignInButton, SignInButtonProps, SignInInputField, SignInOptionDivider, SignInOptionDividerProps, SignInRetryText, SignInRetryTextProps, SignInRoot, SignInRootProps, SignInTypography, SignInTypographyProps} from './CompoundComponents';
+import {InputFieldProps, RegisterLink, RegisterLinkProps, RememberMe, SignInButton, SignInButtonProps, SignInImage, SignInImageProps, SignInInputField, SignInOptionDivider, SignInOptionDividerProps, SignInRetryText, SignInRetryTextProps, SignInRoot, SignInRootProps, SignInTypography, SignInTypographyProps} from './CompoundComponents';
 import './ui-sign-in.scss';
 import PinInput, { PinInputProps } from './PINInputField';
 
@@ -36,6 +36,7 @@ const UISignIn: FC<UISignInProps> & {
   OptionDivider?: ForwardRefExoticComponent<SignInOptionDividerProps>;
   RetryText?: FC<SignInRetryTextProps>;
   PINInput?: FC<PinInputProps>;
+  Image?: FC<SignInImageProps>;
 } = props => {
   const {children} = props;
   const classes: string = clsx('ui-sign-in', props['className']);
@@ -52,5 +53,6 @@ UISignIn.RememberMe = RememberMe;
 UISignIn.OptionDivider = SignInOptionDivider;
 UISignIn.RetryText = SignInRetryText;
 UISignIn.PINInput = PinInput;
+UISignIn.Image = SignInImage;
 
 export default UISignIn;

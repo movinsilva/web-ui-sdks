@@ -16,31 +16,23 @@
  * under the License.
  */
 
-import {Customization, ScreenType, keys} from '@asgardeo/js-ui-core';
-import {CircularProgress, Link} from '@oxygen-ui/react';
+import {Authenticator, Customization, ScreenType} from '@asgardeo/js-ui-core';
+import {CircularProgress} from '@oxygen-ui/react';
 import i18next from 'i18next';
-import {useState, useEffect, ReactElement} from 'react';
-import {Trans} from 'react-i18next';
-import {i18nAddResources} from '../../../customization/i18n';
+import {ReactElement, useEffect, useState} from 'react';
+import {i18nAddResources} from '../../../../customization/i18n';
+import UISignIn from '../../../ui-auth-components/UISignIn';
 import {useBrandingPreference} from '../../BrandingPreferenceProvider/branding-preference-context';
-import UISignIn from '../../ui-components/UISignIn';
 
-interface TotpProps {
-  authenticatorId: string;
+interface EmailOtpProps {
+  authenticator?: Authenticator;
   customization?: Customization;
-  handleAuthenticate: Function;
 }
 
-const Totp = ({customization, authenticatorId, handleAuthenticate}: TotpProps): ReactElement => {
+const EmailOtp = ({customization, authenticator}: EmailOtpProps): ReactElement => {
   const brandingProps: Customization = useBrandingPreference();
-  console.log('totp rendering');
-
+  const [otp, setOtp] = useState<string>();
   const [isTextLoading, setIsTextLoading] = useState<boolean>();
-  const [totp, setTotp] = useState<string>(); // Initialize a state variable for the TOTP
-
-  useEffect(() => {
-    console.log('totp from outside: ', totp);
-  }, [totp]);
 
   useEffect(() => {
     i18nAddResources({
@@ -63,36 +55,32 @@ const Totp = ({customization, authenticatorId, handleAuthenticate}: TotpProps): 
 
   return (
     <UISignIn.Root>
-      <UISignIn.Typography title>
-        <Trans i18nKey={keys.totp.heading} />
-      </UISignIn.Typography>
+      <UISignIn.Typography title>OTP Verfication</UISignIn.Typography>
 
-      <UISignIn.Typography subtitle>
-        <Trans i18nKey={keys.totp.enter.verification.code.got.by.device} />
-      </UISignIn.Typography>
+      <UISignIn.InputField
+        fullWidth
+        autoComplete="off"
+        label="Enter the code sent to your email ID"
+        name="text"
+        value={otp}
+        type="password"
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setOtp(e.target.value)}
+      />
 
-      <UISignIn.PINInput length={6} onPinChange={setTotp} />
-
+      <UISignIn.Button fullWidth variant="contained" type="submit" onClick={() => console.log('Verify OTP')}>
+        Continue
+      </UISignIn.Button>
       <UISignIn.Button
+        className="email-otp-resend"
+        fullWidth
+        onClick={() => console.log('Resend OTP')}
         color="primary"
         variant="contained"
-        className="oxygen-sign-in-cta"
-        type="submit"
-        fullWidth
-        onClick={() => handleAuthenticate({totp}, authenticatorId)}
       >
-        <Trans i18nKey={keys.totp.continue} />
+        Resend Code
       </UISignIn.Button>
-      <UISignIn.Typography subtitle>
-        <Trans i18nKey={keys.totp.enroll.message1} />
-        <br />
-        <Trans i18nKey={keys.totp.enroll.message2} />
-      </UISignIn.Typography>
-      <Link href="./somewhere">
-        <Trans i18nKey={keys.totp.enroll.message2} />
-      </Link>
     </UISignIn.Root>
   );
 };
 
-export default Totp;
+export default EmailOtp;

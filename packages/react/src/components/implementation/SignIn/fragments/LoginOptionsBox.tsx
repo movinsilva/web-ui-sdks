@@ -16,11 +16,11 @@
  * under the License.
  */
 
-import facebook from '../../../assets/social-logins/facebook.svg';
-import github from '../../../assets/social-logins/github.svg';
-import google from '../../../assets/social-logins/google.svg';
-import microsoft from '../../../assets/social-logins/microsoft.svg';
-import UISignIn from '../../ui-components/UISignIn';
+import facebook from '../../../../assets/social-logins/facebook.svg';
+import github from '../../../../assets/social-logins/github.svg';
+import google from '../../../../assets/social-logins/google.svg';
+import microsoft from '../../../../assets/social-logins/microsoft.svg';
+import UISignIn from '../../../ui-auth-components/UISignIn';
 
 const images: {[key: string]: string} = {
   Facebook: facebook,

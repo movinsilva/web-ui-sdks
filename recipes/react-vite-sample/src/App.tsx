@@ -1,5 +1,5 @@
 import './App.css'
-import { SignIn } from '../../../packages/react/src'
+import { SignIn, SignedIn } from '../../../packages/react/src'
 
 function App() {
 
@@ -9,6 +9,7 @@ function App() {
   return (
     <>
       <SignIn />
+      
     </>
   )
 }

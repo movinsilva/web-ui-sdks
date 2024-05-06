@@ -21,6 +21,8 @@ const image = require('@rollup/plugin-image');
 const nodeResolve = require('@rollup/plugin-node-resolve');
 const typescript = require('@rollup/plugin-typescript');
 const dts = require('rollup-plugin-dts');
+const nodePolyfills = require('rollup-plugin-node-polyfills');
+const peerDepsExternal = require('rollup-plugin-peer-deps-external');
 const styles = require('rollup-plugin-styles');
 
 const pkg = require('./package.json');
@@ -50,11 +52,16 @@ module.exports = [
       },
     ],
     plugins: [
-      nodeResolve({preferBuiltins: true}),
+      nodeResolve({
+        browser: true,
+        preferBuiltins: true,
+      }),
       commonjs(),
       typescript({tsconfig: './tsconfig.lib.json'}),
+      peerDepsExternal(),
       styles(),
       image(),
+      nodePolyfills({crypto: true}),
     ],
   },
   {

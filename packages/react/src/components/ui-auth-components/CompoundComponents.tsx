@@ -16,9 +16,9 @@
  * under the License.
  */
 
-import {Box, Button, Checkbox, Divider, FormControlLabel, FormGroup, Grid, Link, Paper, TextField, Typography} from '@oxygen-ui/react';
+import {Box, Button, Checkbox, Divider, FormControlLabel, FormGroup, Grid, Image, ImageProps, Link, Paper, TextField, Typography} from '@oxygen-ui/react';
 import clsx from 'clsx';
-import {Children, ComponentPropsWithoutRef, ElementRef, FC, ForwardRefExoticComponent, ForwardedRef, forwardRef} from 'react';
+import {ComponentPropsWithoutRef, ElementRef, FC, ForwardRefExoticComponent, ForwardedRef, forwardRef} from 'react';
 import './compound-components.scss';
 
 /******************
@@ -90,6 +90,21 @@ const SignInButton: ForwardRefExoticComponent<SignInButtonProps> = forwardRef<Si
 );
 
 
+/***************************
+ *   SignInOptionDivider   *
+ ***************************/
+type SignInOptionDividerElement = ElementRef<typeof Divider>;
+type OptionDividerProps = ComponentPropsWithoutRef<typeof Divider>;
+export interface SignInOptionDividerProps extends OptionDividerProps {}
+
+const SignInOptionDivider: ForwardRefExoticComponent<SignInOptionDividerProps> = forwardRef<SignInOptionDividerElement, SignInOptionDividerProps>(
+  (props: SignInOptionDividerProps, forwardedRef) => {
+    const classes: string = clsx('ui-sign-in-option-divider', props['className']);
+    return <Divider className={classes} ref={forwardedRef} {...props} />;
+  },
+);
+
+
 /********************
  *   RegisterLink   *
  ********************/
@@ -121,22 +136,6 @@ const RememberMe = () => {
       </FormGroup>
   )
 }
-
-
-/***************************
- *   SignInOptionDivider   *
- ***************************/
-type SignInOptionDividerElement = ElementRef<typeof Divider>;
-type OptionDividerProps = ComponentPropsWithoutRef<typeof Divider>;
-export interface SignInOptionDividerProps extends OptionDividerProps {}
-
-const SignInOptionDivider: ForwardRefExoticComponent<SignInOptionDividerProps> = forwardRef<SignInOptionDividerElement, SignInOptionDividerProps>(
-  (props: SignInOptionDividerProps, forwardedRef) => {
-    const classes: string = clsx('ui-sign-in-option-divider', props['className']);
-    return <Divider className={classes} ref={forwardedRef} {...props} />;
-  },
-);
-
 /*****************
  *   RetryText   *
  *****************/
@@ -155,6 +154,18 @@ const SignInRetryText:FC = ({children, className, ...rest}: SignInRetryTextProps
 
 
 
+
+export interface SignInImageProps extends ImageProps {
+  className?: string;
+}
+
+const SignInImage: FC<SignInImageProps> = ({ className, ...rest }) => {
+  const classes = clsx('ui-sign-in-image', className);
+  return <Image className={classes} {...rest} />;
+};
+
+
+
 export {
   SignInRoot,
   SignInTypography,
@@ -163,5 +174,6 @@ export {
   RegisterLink,
   RememberMe,
   SignInOptionDivider,
-  SignInRetryText
+  SignInRetryText,
+  SignInImage
 };

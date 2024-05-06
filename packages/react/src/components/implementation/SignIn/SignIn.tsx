@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2024, WSO2 LLC. (https://www.wso2.com).
+ * Copyright (c, WSO2 LLC. (https://www.wso2.com).
  *
  * WSO2 LLC. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -19,15 +19,16 @@
 import {AsgardeoUIException, AuthApiResponse, AuthClient, Authenticator, Customization, FlowStatus, Metadata, ScreenType, UIAuthClient, authenticate, authorize} from '@asgardeo/js-ui-core';
 import {Button, CircularProgress, SignIn as OSI} from '@oxygen-ui/react';
 import {FC, ReactElement, useContext, useEffect, useState} from 'react';
-import UISignIn from '../ui-components/UISignIn';
+import UISignIn from '../../ui-auth-components/UISignIn';
 import './sign-in.scss';
-import { i18nAddResources } from '../../customization/i18n';
-import SPACryptoUtils from '../../utils/crypto-utils';
-import { ConnectionManagementConstants } from '../../constants/connection-constants';
+import { i18nAddResources } from '../../../customization/i18n';
+import SPACryptoUtils from '../../../utils/crypto-utils';
+import { ConnectionManagementConstants } from '../../../constants/connection-constants';
 import BasicAuth from './fragments/BasicAuth';
-import { AsgardeoContext, AuthContext, useConfig } from '../AsgardeoProvider/asgardeo-context';
+import { AsgardeoContext, AuthContext, useAuthentication, useConfig } from '../AsgardeoProvider/asgardeo-context';
 import LoginOptionsBox from './fragments/LoginOptionsBox';
 import Totp from './fragments/Totp';
+import EmailOtp from './fragments/EmailOtp';
 
 interface SignInProps {
   customization: Customization;
@@ -39,6 +40,7 @@ const SignIn: FC = ({customization}: SignInProps) => {
   const [error, setError] = useState<string>();
   const [isRetry, setIsRetry] = useState(false);
   const [showSelfSignUp, setShowSelfSignUp] = useState(true);
+  const {isAuthenticated} = useAuthentication();
 
   const authContext: AuthContext | undefined = useContext(AsgardeoContext);
 
@@ -87,6 +89,7 @@ const SignIn: FC = ({customization}: SignInProps) => {
   if (resp.flowStatus === FlowStatus.SuccessCompleted && resp.authData) {
     console.log('successful authentication');
     setAuthResponse(resp);
+    console.log("bn");
     const authInstance: UIAuthClient = AuthClient.getInstance();
     const state: string = (await authInstance.getDataLayer().getTemporaryDataParameter('state')).toString();
     await authInstance.requestAccessToken(resp.authData.code, resp.authData.session_state, state);
@@ -194,29 +197,50 @@ const renderLoginOptions = (authenticators: Authenticator[]): ReactElement[] => 
                   renderLoginOptions={renderLoginOptions(authenticators.filter((auth) => auth.authenticatorId !== usernamePasswordID))}
               />
         }
-    });
+      });
 
-    if (authenticators.length === 1) {
-      console.log('authenticators: ', authenticators[0].authenticator)
-      if(authenticators[0].authenticator === 'TOTP') {
-        console.log('TOTP authenticator found');
-        SignInCore = <Totp 
-                        customization={customization}
-                        authenticatorId={authenticators[0].authenticatorId}
-                        handleAuthenticate={handleAuthenticate}
-                      />
-      }
-    };
+      if (authenticators.length === 1) {
+        console.log('authenticators: ', authenticators[0].authenticator)
+        if(authenticators[0].authenticator === 'TOTP') {
+          console.log('TOTP authenticator found');
+          SignInCore = <Totp 
+                          customization={customization}
+                          authenticatorId={authenticators[0].authenticatorId}
+                          handleAuthenticate={handleAuthenticate}
+                        />
+        } else if(new SPACryptoUtils().base64URLDecode(authResponse.nextStep.authenticators[0].authenticatorId).split(':')[0] === 'email-otp-authenticator') {
+          console.log('email otp authenticator found');
+          SignInCore = <EmailOtp />
+        }
+      };
   }
 
     const cryptoUtils = new SPACryptoUtils();
     const decodedAuthenticator = cryptoUtils.base64URLDecode(authResponse.nextStep.authenticators[0].authenticatorId);
-    console.log('decodedAuthenticator: ', decodedAuthenticator)
+    console.log('decodedAuthenticator: ', new SPACryptoUtils().base64URLDecode(authResponse.nextStep.authenticators[0].authenticatorId).split(':')[0] === 'email-otp-authenticator')
 
+    if (authResponse?.flowStatus !== FlowStatus.SuccessCompleted && !isAuthenticated) {
+      return SignInCore;
+    }
+
+    if (authResponse?.flowStatus === FlowStatus.SuccessCompleted || isAuthenticated) {
+      return (
+        <div style={{backgroundColor: 'white', padding: '1rem'}}>Successfully Authenticated</div>
+      )
+    }
+
+    return <div>??????????????????????????????????</div>
+  }
+
+  const renderSignInComponent =({authResponse}: RenderSignInProps) => {
     return (
-    <UISignIn>
-      {SignInCore}
-    </UISignIn>)
+      <UISignIn>
+        {authResponse?.flowStatus !== FlowStatus.SuccessCompleted && !isAuthenticated && renderSignIn({authResponse})}
+        {(authResponse?.flowStatus === FlowStatus.SuccessCompleted || isAuthenticated) && (
+          <div style={{backgroundColor: 'white', padding: '1rem'}}>Successfully Authenticated</div>
+        )}
+      </UISignIn>
+    )
   }
 
   return (
@@ -231,15 +255,12 @@ const renderLoginOptions = (authenticators: Authenticator[]): ReactElement[] => 
           <h1>Error</h1>
           <p>{error}</p>
         </div>
-      ) : renderSignIn({authResponse})}
-      <OSI
-        sx={{marginTop: '5rem'}}
-        signInOptions={
-          <Button className="oxygen-sign-in-option-social google" fullWidth type="button" variant="contained">
-            Sign In With Google
-          </Button>
-        }
-      />
+      ) : (
+        
+        renderSignInComponent({authResponse})
+      )
+    }
+      
     </>
   );
 };

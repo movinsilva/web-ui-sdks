@@ -16,7 +16,21 @@
  * under the License.
  */
 
-export {default as AsgardeoProvider} from './implementation/AsgardeoProvider/AsgardeoProvider';
-export * from './implementation/AsgardeoProvider/asgardeo-context';
-export {default as SignIn} from './implementation/SignIn/SignIn';
-export {default as SignedIn} from './implementation/ControlComponents/SignedIn';
+import {FC, PropsWithChildren} from 'react';
+import {useAuthentication} from '../AsgardeoProvider/asgardeo-context';
+
+interface SignedPropsInterface {
+  fallback?: JSX.Element;
+}
+
+const SignedIn: FC<PropsWithChildren<SignedPropsInterface>> = (props: PropsWithChildren<SignedPropsInterface>) => {
+  const {fallback, children} = props;
+  const {isAuthenticated} = useAuthentication();
+
+  if (isAuthenticated) {
+    return <div>{children}</div>;
+  }
+  return fallback ?? null;
+};
+
+export default SignedIn;

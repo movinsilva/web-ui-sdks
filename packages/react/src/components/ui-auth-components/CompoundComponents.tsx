@@ -16,29 +16,42 @@
  * under the License.
  */
 
-import {Box, Button, Checkbox, Divider, FormControlLabel, FormGroup, Grid, Image, ImageProps, Link, Paper, TextField, Typography} from '@oxygen-ui/react';
+import {
+  Box,
+  Button,
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  Image,
+  ImageProps,
+  Link,
+  Paper,
+  TextField,
+  Typography,
+} from '@oxygen-ui/react';
 import clsx from 'clsx';
 import {ComponentPropsWithoutRef, ElementRef, FC, ForwardRefExoticComponent, ForwardedRef, forwardRef} from 'react';
 import './compound-components.scss';
 
-/******************
+/** ****************
  *   SignInRoot   *
- ******************/
+ ***************** */
 type SignInRootElement = ElementRef<typeof Paper>;
 type RootProps = ComponentPropsWithoutRef<typeof Paper>;
 export interface SignInRootProps extends RootProps {}
 
 const SignInRoot: ForwardRefExoticComponent<SignInRootProps> = forwardRef<SignInRootElement, SignInRootProps>(
   (props: SignInRootProps, forwardedRef: ForwardedRef<unknown>) => {
-    const classes: string = clsx('ui-sign-in-paper', props['className']);
+    const classes: string = clsx('ui-sign-in-paper', props.className);
     return <Paper className={classes} ref={forwardedRef} variant="outlined" {...props} />;
   },
 );
 
-
-/*******************
+/** *****************
  *   SignInTitle   *
- *******************/
+ ****************** */
 type SignInTypographyElement = ElementRef<typeof Typography>;
 type TypographyProps = ComponentPropsWithoutRef<typeof Typography>;
 export interface SignInTypographyProps extends TypographyProps {
@@ -46,34 +59,43 @@ export interface SignInTypographyProps extends TypographyProps {
   title?: boolean;
 }
 
-const SignInTypography: ForwardRefExoticComponent<SignInTypographyProps> = forwardRef<SignInTypographyElement, SignInTypographyProps>(
-  (props: SignInTypographyProps, forwardedRef: ForwardedRef<unknown>) => {
-    const {subtitle, title, ...rest} = props;
-    const classname = subtitle ? 'ui-sign-in-subtitle' : title ? 'ui-sign-in-title' :  'ui-sign-in-typography'
-    const variant = subtitle ? 'subtitle1' : title ? 'h5' : 'body1';
-    const classes: string = clsx(classname, props['className']);
-    return <Typography className={classes} ref={forwardedRef} align="center" variant={variant} {...rest} />;
-  },
-);
+const SignInTypography: ForwardRefExoticComponent<SignInTypographyProps> = forwardRef<
+  SignInTypographyElement,
+  SignInTypographyProps
+>((props: SignInTypographyProps, forwardedRef: ForwardedRef<unknown>) => {
+  const {subtitle, title, ...rest} = props;
+  const classname = subtitle ? 'ui-sign-in-subtitle' : title ? 'ui-sign-in-title' : 'ui-sign-in-typography';
+  const variant = subtitle ? 'subtitle1' : title ? 'h5' : 'body1';
+  const classes: string = clsx(classname, props.className);
+  return <Typography className={classes} ref={forwardedRef} align="center" variant={variant} {...rest} />;
+});
 
-
-/************************
+/** **********************
  *   SignInInputField   *
- ************************/
+ *********************** */
 type SignInInputFieldElement = ElementRef<typeof TextField>;
 export type InputFieldProps = ComponentPropsWithoutRef<typeof TextField>;
 
-const SignInInputField: ForwardRefExoticComponent<InputFieldProps> = forwardRef<SignInInputFieldElement, InputFieldProps>(
-  ({className, ...rest}: InputFieldProps, forwardedRef) => {
-    const classes: string = clsx('ui-sign-in-input-field', className);
-    return <TextField fullWidth required InputLabelProps={{className: 'ui-sign-in-input-field-label'}} className={classes} ref={forwardedRef} {...rest} />;
-  },
-);
+const SignInInputField: ForwardRefExoticComponent<InputFieldProps> = forwardRef<
+  SignInInputFieldElement,
+  InputFieldProps
+>(({className, ...rest}: InputFieldProps, forwardedRef) => {
+  const classes: string = clsx('ui-sign-in-input-field', className);
+  return (
+    <TextField
+      fullWidth
+      required
+      InputLabelProps={{className: 'ui-sign-in-input-field-label'}}
+      className={classes}
+      ref={forwardedRef}
+      {...rest}
+    />
+  );
+});
 
-
-/********************
+/** ******************
  *   SignInButton   *
- ********************/
+ ******************* */
 type SignInButtonElement = ElementRef<typeof Button>;
 type ButtonProps = ComponentPropsWithoutRef<typeof Button>;
 export interface SignInButtonProps extends ButtonProps {
@@ -89,82 +111,69 @@ const SignInButton: ForwardRefExoticComponent<SignInButtonProps> = forwardRef<Si
   },
 );
 
-
-/***************************
+/** *************************
  *   SignInOptionDivider   *
- ***************************/
+ ************************** */
 type SignInOptionDividerElement = ElementRef<typeof Divider>;
 type OptionDividerProps = ComponentPropsWithoutRef<typeof Divider>;
 export interface SignInOptionDividerProps extends OptionDividerProps {}
 
-const SignInOptionDivider: ForwardRefExoticComponent<SignInOptionDividerProps> = forwardRef<SignInOptionDividerElement, SignInOptionDividerProps>(
-  (props: SignInOptionDividerProps, forwardedRef) => {
-    const classes: string = clsx('ui-sign-in-option-divider', props['className']);
-    return <Divider className={classes} ref={forwardedRef} {...props} />;
-  },
-);
+const SignInOptionDivider: ForwardRefExoticComponent<SignInOptionDividerProps> = forwardRef<
+  SignInOptionDividerElement,
+  SignInOptionDividerProps
+>((props: SignInOptionDividerProps, forwardedRef) => {
+  const classes: string = clsx('ui-sign-in-option-divider', props.className);
+  return <Divider className={classes} ref={forwardedRef} {...props} />;
+});
 
-
-/********************
+/** ******************
  *   RegisterLink   *
- ********************/
+ ******************* */
 export interface RegisterLinkProps {
   signUpUrl: string;
 }
 
-const RegisterLink = ({signUpUrl}: RegisterLinkProps) => {
-  return (
-      <Grid container className="oxygen-sign-in-sign-up-link">
-        <Grid>Don&apos;t have an account?</Grid>
-        <Grid>
-          <Link href={signUpUrl} className="oxygen-sign-in-sign-up-link-action">
-            Register
-          </Link>
-        </Grid>
-      </Grid>
-  )
-}
+const RegisterLink = ({signUpUrl}: RegisterLinkProps) => (
+  <Grid container className="oxygen-sign-in-sign-up-link">
+    <Grid>Don&apos;t have an account?</Grid>
+    <Grid>
+      <Link href={signUpUrl} className="oxygen-sign-in-sign-up-link-action">
+        Register
+      </Link>
+    </Grid>
+  </Grid>
+);
 
-
-/******************
+/** ****************
  *   RememberMe   *
- ******************/
-const RememberMe = () => {
-  return  (
-      <FormGroup>
-        <FormControlLabel control={<Checkbox />} label="Remember me on this computer" />
-      </FormGroup>
-  )
-}
-/*****************
+ ***************** */
+const RememberMe = () => (
+  <FormGroup>
+    <FormControlLabel control={<Checkbox />} label="Remember me on this computer" />
+  </FormGroup>
+);
+/** ***************
  *   RetryText   *
- *****************/
+ **************** */
 type RetryTextProps = ComponentPropsWithoutRef<typeof Box>;
 export interface SignInRetryTextProps extends RetryTextProps {}
-const SignInRetryText:FC = ({children, className, ...rest}: SignInRetryTextProps) => {
-  const classes: string = clsx('oxygen-sign-in-retry-text', className );
+const SignInRetryText: FC = ({children, className, ...rest}: SignInRetryTextProps) => {
+  const classes: string = clsx('oxygen-sign-in-retry-text', className);
   return (
-      <Box className={classes} {...rest}>
-          <Typography className="oxygen-sign-in-error">
-            {children}
-          </Typography>
-      </Box>
-  )
-}
-
-
-
+    <Box className={classes} {...rest}>
+      <Typography className="oxygen-sign-in-error">{children}</Typography>
+    </Box>
+  );
+};
 
 export interface SignInImageProps extends ImageProps {
   className?: string;
 }
 
-const SignInImage: FC<SignInImageProps> = ({ className, ...rest }) => {
+const SignInImage: FC<SignInImageProps> = ({className, ...rest}) => {
   const classes = clsx('ui-sign-in-image', className);
   return <Image className={classes} {...rest} />;
 };
-
-
 
 export {
   SignInRoot,
@@ -175,5 +184,5 @@ export {
   RememberMe,
   SignInOptionDivider,
   SignInRetryText,
-  SignInImage
+  SignInImage,
 };

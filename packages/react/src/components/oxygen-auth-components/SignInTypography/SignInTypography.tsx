@@ -16,11 +16,28 @@
  * under the License.
  */
 
-import {Typography} from '@oxygen-ui/react';
-import {FC} from 'react';
+import {Typography, TypographyProps} from '@oxygen-ui/react';
+import clsx from 'clsx';
+import {ElementType, ForwardRefExoticComponent, MutableRefObject, ReactElement, forwardRef} from 'react';
+import {WithWrapperProps} from '../models/component';
 
-const ComponentName: string = 'SignInTypography';
+export type SignInTypographyProps<C extends ElementType = ElementType> = {
+  component?: C;
+} & Omit<TypographyProps, 'component'>;
 
-const SignInTypography = (): FC => <Typography>some text</Typography>;
+const COMPONENT_NAME: string = 'SignInTypography';
+
+const SignInTypography: ForwardRefExoticComponent<SignInTypographyProps> & WithWrapperProps = forwardRef(
+  <C extends ElementType>(props: SignInTypographyProps<C>, ref: MutableRefObject<HTMLDivElement>): ReactElement => {
+    const {className, ...rest} = props;
+
+    const classes: string = clsx('oxygen-box', className);
+
+    return <Typography ref={ref} className={classes} {...rest} />;
+  },
+) as ForwardRefExoticComponent<SignInTypographyProps> & WithWrapperProps;
+
+SignInTypography.displayName = COMPONENT_NAME;
+SignInTypography.muiName = COMPONENT_NAME;
 
 export default SignInTypography;

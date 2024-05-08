@@ -30,6 +30,7 @@ import LoginOptionsBox from './fragments/LoginOptionsBox';
 import Totp from './fragments/Totp';
 import EmailOtp from './fragments/EmailOtp';
 import { useBrandingPreference } from '../BrandingPreferenceProvider/branding-preference-context';
+import { SignInTypography } from '../../oxygen-auth-components';
 
 interface SignInProps {
   customization: Customization;
@@ -266,6 +267,8 @@ const renderLoginOptions = (authenticators: Authenticator[]): ReactElement[] => 
         renderSignInComponent({authResponse})
       )
     }
+
+    <SignInTypography>Sign In Typography</SignInTypography>
       
     </>
   );

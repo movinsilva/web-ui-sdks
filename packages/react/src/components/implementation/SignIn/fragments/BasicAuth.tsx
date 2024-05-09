@@ -17,15 +17,19 @@
  */
 
 import {Customization, ScreenType, keys} from '@asgardeo/js-ui-core';
-import {CircularProgress} from '@oxygen-ui/react';
+import {Alert, CircularProgress, Grid, Link} from '@oxygen-ui/react';
 import {ReactElement, useEffect, useState} from 'react';
 import {Trans, useTranslation} from 'react-i18next';
 import {i18nAddResources} from '../../../../customization/text/i18n';
 import {SignInTypography} from '../../../oxygen-auth-components';
 import SignInButton from '../../../oxygen-auth-components/SignInButton/SignInButton';
+import SignInDivider from '../../../oxygen-auth-components/SignInDivider/SignInDivider';
+import SignInLink from '../../../oxygen-auth-components/SignInLink/SignInLink';
+import SignInPaper from '../../../oxygen-auth-components/SignInPaper/SignInPaper';
 import SignInTextField from '../../../oxygen-auth-components/SignInTextField/SignInTextField';
 import UISignIn from '../../../ui-auth-components/UISignIn';
 import {useBrandingPreference} from '../../BrandingPreferenceProvider/branding-preference-context';
+import SignInAlert from '../../../oxygen-auth-components/SignInAlert/SignInAlert';
 
 interface BasicAuthProps {
   authenticatorId: string;
@@ -69,14 +73,13 @@ const BasicAuth = ({
     );
   }
   return (
-    <UISignIn.Root>
+    <SignInPaper>
       <SignInTypography title>
         <Trans i18nKey={keys.login.login.heading} />
       </SignInTypography>
 
-      {isRetry && (
-        <UISignIn.RetryText>Login failed! Please check your username and password and try again.</UISignIn.RetryText>
-      )}
+       {/* TODO: change to isError, make this generic */}
+      {isRetry && <SignInAlert>Login failed! Please check your username and password and try again.</SignInAlert>}
 
       <SignInTextField
         autoComplete="off"
@@ -97,8 +100,6 @@ const BasicAuth = ({
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
       />
 
-      <UISignIn.RememberMe />
-
       <SignInButton
         type="submit"
         onClick={() => {
@@ -110,12 +111,19 @@ const BasicAuth = ({
         {t(keys.login.button)}
       </SignInButton>
 
-      {showSelfSignUp && <UISignIn.Register signUpUrl="/register" />}
+      {showSelfSignUp && (
+        <Grid container>
+          <SignInTypography>Don&apos;t have an account?</SignInTypography>
+          <SignInLink href="./register" className="asgardeo-register-link">
+            Register
+          </SignInLink>
+        </Grid>
+      )}
 
-      <UISignIn.OptionDivider> OR</UISignIn.OptionDivider>
+      <SignInDivider>OR</SignInDivider>
 
       {renderLoginOptions}
-    </UISignIn.Root>
+    </SignInPaper>
   );
 };
 

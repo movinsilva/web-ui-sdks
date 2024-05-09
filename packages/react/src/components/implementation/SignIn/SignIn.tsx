@@ -19,7 +19,6 @@
 import {AsgardeoUIException, AuthApiResponse, AuthClient, Authenticator, Customization, FlowStatus, Metadata, ScreenType, UIAuthClient, authenticate, authorize} from '@asgardeo/js-ui-core';
 import {CircularProgress, SignIn as OSI} from '@oxygen-ui/react';
 import {FC, ReactElement, useContext, useEffect, useState} from 'react';
-import UISignIn from '../../ui-auth-components/UISignIn';
 import './sign-in.scss';
 import { i18nAddResources } from '../../../customization/text/i18n';
 import SPACryptoUtils from '../../../utils/crypto-utils';
@@ -32,6 +31,7 @@ import EmailOtp from './fragments/EmailOtp';
 import { useBrandingPreference } from '../BrandingPreferenceProvider/branding-preference-context';
 import { SignInTypography } from '../../oxygen-auth-components';
 import SignInButton from '../../oxygen-auth-components/SignInButton/SignInButton';
+import {default as UISignIn} from '../../oxygen-auth-components/SignIn/SignIn';
 
 interface SignInProps {
   customization: Customization;
@@ -242,7 +242,7 @@ const renderLoginOptions = (authenticators: Authenticator[]): ReactElement[] => 
     const imgUrl = brandingPreference.preference.theme.LIGHT.images.logo.imgURL;
     return (
       <UISignIn>
-        <UISignIn.Image src={imgUrl} />
+        
         {authResponse?.flowStatus !== FlowStatus.SuccessCompleted && !isAuthenticated && renderSignIn({authResponse})}
         {(authResponse?.flowStatus === FlowStatus.SuccessCompleted || isAuthenticated) && (
           <div style={{backgroundColor: 'white', padding: '1rem'}}>Successfully Authenticated</div>

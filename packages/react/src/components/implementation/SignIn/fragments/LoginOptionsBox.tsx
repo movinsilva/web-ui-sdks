@@ -20,8 +20,9 @@ import facebook from '../../../../assets/social-logins/facebook.svg';
 import github from '../../../../assets/social-logins/github.svg';
 import google from '../../../../assets/social-logins/google.svg';
 import microsoft from '../../../../assets/social-logins/microsoft.svg';
-import UISignIn from '../../../ui-auth-components/UISignIn';
 import emailSolid from '../../../../assets/email-solid.svg';
+import SignInButton from '../../../oxygen-auth-components/SignInButton/SignInButton';
+
 
 const images: {[key: string]: string} = {
   Facebook: facebook,
@@ -32,18 +33,22 @@ const images: {[key: string]: string} = {
 };
 
 const LoginOptionsBox = ({socialName, idp, handleOnClick}): JSX.Element => (
-  <UISignIn.Button 
-      social 
-      startIcon={
-          <img 
-              className="social-login-img" 
-              src={images[socialName]} alt={socialName} 
-          />
-      }
-      onClick={handleOnClick}
-   >
-    Sign In with {idp}
-  </UISignIn.Button>
+  
+
+  <SignInButton
+  social 
+  startIcon={
+      <img 
+          className="social-login-img" 
+          src={images[socialName]} alt={socialName} 
+      />
+  }
+  onClick={handleOnClick}
+>
+Sign In with {idp}
+  </SignInButton>
+
+  
 );
 
 export default LoginOptionsBox;

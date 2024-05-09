@@ -20,20 +20,40 @@ import {Typography, TypographyProps} from '@oxygen-ui/react';
 import clsx from 'clsx';
 import {ElementType, ForwardRefExoticComponent, MutableRefObject, ReactElement, forwardRef} from 'react';
 import {WithWrapperProps} from '../models/component';
+import pascalCaseToKebabCase from '../utils/pascal-case-to-kebab-case';
+import './sign-in-typography.scss';
 
 export type SignInTypographyProps<C extends ElementType = ElementType> = {
   component?: C;
-} & Omit<TypographyProps, 'component'>;
+} & Omit<TypographyProps, 'component'> &
+  ({subtitle?: never; title?: boolean} | {subtitle?: boolean; title?: never});
 
 const COMPONENT_NAME: string = 'SignInTypography';
 
 const SignInTypography: ForwardRefExoticComponent<SignInTypographyProps> & WithWrapperProps = forwardRef(
   <C extends ElementType>(props: SignInTypographyProps<C>, ref: MutableRefObject<HTMLDivElement>): ReactElement => {
-    const {className, ...rest} = props;
+    const {className, title, subtitle, variant, align, ...rest} = props;
 
-    const classes: string = clsx('oxygen-box', className);
+    const classes: string = clsx(`oxygen-${pascalCaseToKebabCase(COMPONENT_NAME)}`, className);
 
-    return <Typography ref={ref} className={classes} {...rest} />;
+    let extendedVariant: string = variant || 'body1';
+    let extendedAlign: string = align || 'left';
+
+    if (!variant) {
+      if (title) {
+        extendedVariant = 'h5';
+      } else if (subtitle) {
+        extendedVariant = 'body1';
+      }
+    }
+
+    if (!align) {
+      if (title || subtitle) {
+        extendedAlign = 'center';
+      }
+    }
+
+    return <Typography ref={ref} className={classes} variant={extendedVariant} align={extendedAlign} {...rest} />;
   },
 ) as ForwardRefExoticComponent<SignInTypographyProps> & WithWrapperProps;
 

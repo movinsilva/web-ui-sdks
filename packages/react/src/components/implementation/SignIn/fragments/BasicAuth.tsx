@@ -21,6 +21,9 @@ import {CircularProgress} from '@oxygen-ui/react';
 import {ReactElement, useEffect, useState} from 'react';
 import {Trans, useTranslation} from 'react-i18next';
 import {i18nAddResources} from '../../../../customization/text/i18n';
+import {SignInTypography} from '../../../oxygen-auth-components';
+import SignInButton from '../../../oxygen-auth-components/SignInButton/SignInButton';
+import SignInTextField from '../../../oxygen-auth-components/SignInTextField/SignInTextField';
 import UISignIn from '../../../ui-auth-components/UISignIn';
 import {useBrandingPreference} from '../../BrandingPreferenceProvider/branding-preference-context';
 
@@ -67,16 +70,15 @@ const BasicAuth = ({
   }
   return (
     <UISignIn.Root>
-      <UISignIn.Typography title>
+      <SignInTypography title>
         <Trans i18nKey={keys.login.login.heading} />
-      </UISignIn.Typography>
+      </SignInTypography>
 
       {isRetry && (
         <UISignIn.RetryText>Login failed! Please check your username and password and try again.</UISignIn.RetryText>
       )}
 
-      <UISignIn.InputField
-        fullWidth
+      <SignInTextField
         autoComplete="off"
         label={t(keys.login.username)}
         name="text"
@@ -85,8 +87,7 @@ const BasicAuth = ({
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
       />
 
-      <UISignIn.InputField
-        fullWidth
+      <SignInTextField
         name="password"
         autoComplete="new-password"
         label={t(keys.login.password)}
@@ -98,11 +99,8 @@ const BasicAuth = ({
 
       <UISignIn.RememberMe />
 
-      <UISignIn.Button
-        color="primary"
-        variant="contained"
+      <SignInButton
         type="submit"
-        fullWidth
         onClick={() => {
           handleAuthenticate({password, username}, authenticatorId);
           setUsername('');
@@ -110,7 +108,7 @@ const BasicAuth = ({
         }}
       >
         {t(keys.login.button)}
-      </UISignIn.Button>
+      </SignInButton>
 
       {showSelfSignUp && <UISignIn.Register signUpUrl="/register" />}
 

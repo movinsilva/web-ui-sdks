@@ -16,7 +16,7 @@
  * under the License.
  */
 
-export {default as AsgardeoProvider} from './implementation/AsgardeoProvider/AsgardeoProvider';
+export {default as AsgardeoProvider} from '../providers/AsgardeoProvider';
 export * from './implementation/AsgardeoProvider/asgardeo-context';
 export {default as SignIn} from './implementation/SignIn/SignIn';
 export {default as SignedIn} from './implementation/ControlComponents/SignedIn';

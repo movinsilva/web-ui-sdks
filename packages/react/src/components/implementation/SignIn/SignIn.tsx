@@ -25,11 +25,14 @@ import { i18nAddResources } from '../../../customization/text/i18n';
 import SPACryptoUtils from '../../../utils/crypto-utils';
 import { ConnectionManagementConstants } from '../../../constants/connection-constants';
 import BasicAuth from './fragments/BasicAuth';
-import { AsgardeoContext, AuthContext, useAuthentication, useConfig } from '../AsgardeoProvider/asgardeo-context';
 import LoginOptionsBox from './fragments/LoginOptionsBox';
 import Totp from './fragments/Totp';
 import EmailOtp from './fragments/EmailOtp';
-import { useBrandingPreference } from '../BrandingPreferenceProvider/branding-preference-context';
+import { useAuthentication } from '../../../hooks/use-authentication';
+import AuthContext from '../../../models/auth-context';
+import AsgardeoContext from '../../../contexts/asgardeo-context';
+import { useConfig } from '../../../hooks/use-config';
+import { useBrandingPreference } from '../../../hooks/use-branding-preference';
 
 interface SignInProps {
   customization: Customization;

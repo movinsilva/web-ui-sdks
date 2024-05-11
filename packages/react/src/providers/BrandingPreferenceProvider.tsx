@@ -20,6 +20,7 @@ import {BrandingPreferenceThemeInterface, Customization, getBranding} from '@asg
 import {ThemeProvider} from '@oxygen-ui/react';
 import {FC, PropsWithChildren, useEffect, useMemo, useState} from 'react';
 import BrandingPreferenceContext from '../contexts/branding-preference-context';
+import {i18nInitialize} from '../customization/text/i18n';
 import generateTheme from '../customization/theme';
 import getThemeSkeleton from '../customization/theme/theme-skeleton';
 
@@ -36,6 +37,7 @@ const BrandingPreferenceProvider: FC<PropsWithChildren<BrandingPreferenceProvide
   useEffect(() => {
     getBranding({customization}).then((response: Customization) => {
       setBrandingPreference(response);
+      i18nInitialize(response.locale);
     });
   }, [customization]);
 

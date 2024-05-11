@@ -103,6 +103,7 @@ const AsgardeoProvider: FC<AsgardeProviderProps> = ({
     [accessToken, config, isAuthenticated, setAuthentication, user],
   );
 
+  console.log('inside AsgardeoProvider values: ', value);
   return (
     <AsgardeoContext.Provider value={value}>
       <BrandingPreferenceProvider customization={customization}>{children}</BrandingPreferenceProvider>

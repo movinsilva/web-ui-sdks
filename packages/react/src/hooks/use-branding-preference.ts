@@ -28,5 +28,9 @@ import BrandingPreferenceContext from '../contexts/branding-preference-context';
 export function useBrandingPreference(): Customization {
   const context: Customization = useContext(BrandingPreferenceContext);
 
+  if (!context) {
+    throw new Error('useBrandingPreference must be used within a BrandingPreferenceProvider');
+  }
+
   return context;
 }

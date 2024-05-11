@@ -37,7 +37,7 @@ interface I18nAddResourcesProps {
   screen: ScreenType;
 }
 
-export const i18nAddResources = async (props: I18nAddResourcesProps): Promise<boolean> => {
+export const i18nAddResources = async (props: I18nAddResourcesProps): Promise<TextObject> => {
   const {screen, brandingProps, componentProps} = props;
   const locale: string = componentProps?.locale ?? brandingProps?.locale ?? 'en-US';
 
@@ -51,11 +51,11 @@ export const i18nAddResources = async (props: I18nAddResourcesProps): Promise<bo
 
   console.log('i18n resources: ', resources);
 
-  i18n.addResourceBundle(locale, 'ns', {
-    [screen]: resources,
-  });
+  // i18n.addResourceBundle(locale, 'ns', {
+  //   [screen]: resources,
+  // });
 
-  i18n.changeLanguage(locale);
+  // i18n.changeLanguage(locale);
 
-  return true;
+  return resources;
 };

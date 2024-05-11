@@ -31,6 +31,8 @@ interface UseAuthenticationResponse {
 export const useAuthentication = (): UseAuthenticationResponse => {
   const contextValue: AuthContext = useContext(AsgardeoContext);
 
+  console.log('context values from useAuthentication', contextValue);
+
   const {user, isAuthenticated, accessToken} = contextValue;
 
   const signOut: () => void = () => {

@@ -16,13 +16,13 @@
  * under the License.
  */
 
-import {Customization, ScreenType, keys} from '@asgardeo/js-ui-core';
+import {Customization, ScreenType, TextObject, keys} from '@asgardeo/js-ui-core';
 import {CircularProgress} from '@oxygen-ui/react';
 import {ReactElement, useEffect, useState} from 'react';
 import {Trans, useTranslation} from 'react-i18next';
 import {i18nAddResources} from '../../../../customization/text/i18n';
+import {useBrandingPreference} from '../../../../hooks/use-branding-preference';
 import UISignIn from '../../../ui-auth-components/UISignIn';
-import {useBrandingPreference} from '../../BrandingPreferenceProvider/branding-preference-context';
 
 interface BasicAuthProps {
   authenticatorId: string;
@@ -44,6 +44,7 @@ const BasicAuth = ({
   const [isTextLoading, setIsTextLoading] = useState<boolean>(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [text, setText] = useState<TextObject>();
   const brandingProps: Customization = useBrandingPreference();
 
   const {t} = useTranslation();
@@ -53,7 +54,8 @@ const BasicAuth = ({
       brandingProps,
       componentProps: customization,
       screen: ScreenType.Login,
-    }).then(() => {
+    }).then((response: TextObject) => {
+      setText(response);
       setIsTextLoading(false);
     });
   }, [brandingProps, customization]);
@@ -67,9 +69,7 @@ const BasicAuth = ({
   }
   return (
     <UISignIn.Root>
-      <UISignIn.Typography title>
-        <Trans i18nKey={keys.login.login.heading} />
-      </UISignIn.Typography>
+      <UISignIn.Typography title>{text["login.heading"]}</UISignIn.Typography>
 
       {isRetry && (
         <UISignIn.RetryText>Login failed! Please check your username and password and try again.</UISignIn.RetryText>

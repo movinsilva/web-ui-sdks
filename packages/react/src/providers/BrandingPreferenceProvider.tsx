@@ -1,0 +1,68 @@
+/**
+ * Copyright (c) 2024, WSO2 LLC. (https://www.wso2.com).
+ *
+ * WSO2 LLC. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import {BrandingPreferenceThemeInterface, Customization, getBranding} from '@asgardeo/js-ui-core';
+import {ThemeProvider} from '@oxygen-ui/react';
+import {FC, PropsWithChildren, useEffect, useMemo, useState} from 'react';
+import BrandingPreferenceContext from '../contexts/branding-preference-context';
+import generateTheme from '../customization/theme';
+import getThemeSkeleton from '../customization/theme/theme-skeleton';
+
+interface BrandingPreferenceProviderProps {
+  customization?: Customization;
+}
+
+const BrandingPreferenceProvider: FC<PropsWithChildren<BrandingPreferenceProviderProps>> = ({
+  children,
+  customization,
+}: PropsWithChildren<BrandingPreferenceProviderProps>) => {
+  const [brandingPreference, setBrandingPreference] = useState<Customization>();
+
+  useEffect(() => {
+    getBranding({customization}).then((response: Customization) => {
+      setBrandingPreference(response);
+    });
+  }, [customization]);
+
+  const theme: string | undefined = useMemo(() => {
+    if (brandingPreference?.preference?.theme) {
+      // TODO: Fix the type of the theme
+      return getThemeSkeleton(brandingPreference?.preference?.theme as BrandingPreferenceThemeInterface);
+    }
+    return undefined;
+  }, [brandingPreference?.preference?.theme]);
+
+  const injectBrandingCSSSkeleton: any = (): void => {
+    if (brandingPreference?.preference?.theme) {
+      const styleElement: HTMLStyleElement = document.createElement('style');
+      styleElement.type = 'text/css';
+      styleElement.innerHTML = theme;
+      document.head.appendChild(styleElement);
+    }
+  };
+
+  return (
+    <BrandingPreferenceContext.Provider value={brandingPreference}>
+      {console.log('brandingPreference: ', brandingPreference, '\ntheme: ', theme)}
+      {injectBrandingCSSSkeleton()}
+      <ThemeProvider theme={generateTheme({customization: brandingPreference})}>{children}</ThemeProvider>
+    </BrandingPreferenceContext.Provider>
+  );
+};
+
+export default BrandingPreferenceProvider;

@@ -16,9 +16,21 @@
  * under the License.
  */
 
-import {Branding} from '@asgardeo/js-ui-core';
-import {Context, createContext} from 'react';
+import {UIAuthConfig} from '@asgardeo/js-ui-core';
+import {useContext} from 'react';
+import AsgardeoContext from '../contexts/asgardeo-context';
 
-const BrandingPreferenceContext: Context<Branding> = createContext<Branding>(undefined);
+interface UseConfigResponse {
+  config: UIAuthConfig;
+}
 
-export default BrandingPreferenceContext;
+/**
+ * Custom hook to access the authentication configuration from the AsgardeoProviderContext.
+ * @returns An object containing the authentication configuration.
+ */
+export const useConfig = (): UseConfigResponse => {
+  const {config} = useContext(AsgardeoContext) as {
+    config: UIAuthConfig;
+  };
+  return {config};
+};

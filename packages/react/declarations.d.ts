@@ -16,9 +16,7 @@
  * under the License.
  */
 
-import {Branding} from '@asgardeo/js-ui-core';
-import {Context, createContext} from 'react';
-
-const BrandingPreferenceContext: Context<Branding> = createContext<Branding>(undefined);
-
-export default BrandingPreferenceContext;
+declare module '*.svg' {
+  const content: any;
+  export default content;
+}

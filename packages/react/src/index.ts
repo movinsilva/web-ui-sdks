@@ -16,9 +16,6 @@
  * under the License.
  */
 
-import {Branding} from '@asgardeo/js-ui-core';
-import {Context, createContext} from 'react';
-
-const BrandingPreferenceContext: Context<Branding> = createContext<Branding>(undefined);
-
-export default BrandingPreferenceContext;
+export {default as AsgardeoProvider} from './providers/AsgardeoProvider';
+export {default as SignIn} from './components/SignIn/SignIn';
+export * from './models/public-models';

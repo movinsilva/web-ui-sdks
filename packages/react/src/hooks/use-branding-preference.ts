@@ -17,8 +17,16 @@
  */
 
 import {Branding} from '@asgardeo/js-ui-core';
-import {Context, createContext} from 'react';
+import {useContext} from 'react';
+import BrandingPreferenceContext from '../contexts/branding-preference-context';
 
-const BrandingPreferenceContext: Context<Branding> = createContext<Branding>(undefined);
+/**
+ * Hook to access the branding preferences from the context.
+ *
+ * @returns {BrandingPreferenceContextProps} The branding preferences from the context.
+ */
+export function useBrandingPreference(): Branding {
+  const context: Branding = useContext(BrandingPreferenceContext);
 
-export default BrandingPreferenceContext;
+  return context;
+}

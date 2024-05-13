@@ -19,7 +19,7 @@
 import {BrandingProps} from '@asgardeo/js-ui-core';
 
 interface SignInProps {
-  branding?: BrandingProps;
+  brandingProps?: BrandingProps;
 }
 
 export default SignInProps;

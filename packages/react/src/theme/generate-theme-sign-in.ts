@@ -98,9 +98,88 @@ const generateThemeSignIn: ({branding}: GenerateThemeProps) => Theme = ({brandin
         styleOverrides: {
           root: {
             borderRadius: brandingTheme?.buttons?.primary?.base?.border?.borderRadius,
-            color: 'white',
+            color: brandingTheme?.buttons?.primary?.base?.font?.color,
           },
         },
+      },
+      MuiInputLabel: {
+        styleOverrides: {
+          root: {
+            color: `${
+              brandingTheme?.inputs?.base?.labels?.font?.color ?? brandingTheme?.colors?.text?.primary
+            } !important`,
+          },
+        },
+      },
+      MuiFormControl: {
+        styleOverrides: {
+          root: {
+            background: brandingTheme?.inputs?.base?.background?.backgroundColor,
+            borderColor: brandingTheme?.inputs?.base?.border?.borderColor,
+            borderRadius: brandingTheme?.inputs?.base?.border?.borderRadius,
+            color: brandingTheme?.inputs?.base?.font?.color,
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          input: {
+            padding: '0.67857143em 1em',
+            borderColor: 'red !important',
+          },
+        },
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            background: brandingTheme?.colors?.background?.surface?.main,
+            borderColor: brandingTheme?.colors?.outlined?.default ?? '#000000',
+            '.OxygenSignInButton-social': {
+              backgroundColor: brandingTheme?.buttons.externalConnection.base.background.backgroundColor,
+              color: brandingTheme?.buttons.externalConnection.base.font.color,
+              borderRadius: brandingTheme?.buttons.externalConnection.base.border.borderRadius,
+            },
+          },
+        },
+      },
+      MuiInputBase: {
+        styleOverrides: {
+          root: {
+            borderColor: 'red !important',
+          },
+        },
+      },
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            color: 'purple',
+            borderColor: `${brandingTheme?.colors?.outlined?.default} !important` ?? '#000000',
+          },
+        },
+      },
+      MuiTypography: {
+        styleOverrides: {
+          root: {
+            color: brandingTheme?.colors?.text?.primary ?? '#000000',
+          },
+        },
+      },
+    },
+    customComponents: {
+      AppShell: {
+        properties: {
+          mainBorderTopLeftRadius: '24px',
+          navBarTopPosition: '80px',
+        },
+      },
+    },
+    shape: {
+      borderRadius: 4,
+    },
+    typography: {
+      fontFamily: brandingTheme?.typography.font.fontFamily ?? 'Gilmer, sans-serif',
+      h1: {
+        fontWeight: 700,
       },
     },
   });

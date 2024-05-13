@@ -28,10 +28,12 @@ import {
   authenticate,
   authorize,
 } from '@asgardeo/js-ui-core';
-import {CircularProgress} from '@oxygen-ui/react';
+import {CircularProgress, ThemeProvider} from '@oxygen-ui/react';
 import {FC, ReactElement, useContext, useEffect, useState} from 'react';
 import BasicAuth from './fragments/BasicAuth';
 import LoginOptionsBox from './fragments/LoginOptionsBox';
+import Totp from './fragments/Totp';
+import {default as handleAuthenticateFunction} from './handle-authenticate';
 import AsgardeoContext from '../../contexts/asgardeo-context';
 import {useAuthentication} from '../../hooks/use-authentication';
 import {useBrandingPreference} from '../../hooks/use-branding-preference';
@@ -40,6 +42,7 @@ import AuthContext from '../../models/auth-context';
 import SignInProps from '../../models/sign-in-props';
 import {SignIn as UISignIn} from '../../oxygen-ui-react-auth-components';
 import SPACryptoUtils from '../../utils/crypto-utils';
+import generateThemeSignIn from '../../theme/generate-theme-sign-in';
 
 const SignIn: FC<SignInProps> = (props: SignInProps) => {
   const {branding} = props;
@@ -53,6 +56,8 @@ const SignIn: FC<SignInProps> = (props: SignInProps) => {
   const authContext: AuthContext | undefined = useContext(AsgardeoContext);
 
   const {config} = useConfig();
+
+  const brandingPreference: Branding = useBrandingPreference();
 
   useEffect(() => {
     authorize()
@@ -78,93 +83,18 @@ const SignIn: FC<SignInProps> = (props: SignInProps) => {
    * Handles the generalized authentication process.
    * @param {any} authParams - The authentication parameters.
    */
-  const handleAuthenticate = async (authParams: any, authenticatorId: string): Promise<void> => {
-    if (authResponse === undefined) {
-      throw new AsgardeoUIException('REACT_UI-SIGN_IN-HA-IV02', 'Auth response is undefined.');
-    }
-    setIsLoading(true);
-    const resp: AuthApiResponse = await authenticate({
-      flowId: authResponse.flowId,
-      selectedAuthenticator: {
-        authenticatorId,
-        params: authParams,
-      },
+  const handleAuthenticate = async (authenticatorId: string, authParams?: any): Promise<void> => {
+    handleAuthenticateFunction({
+      authContext,
+      authParams,
+      authResponse,
+      authenticatorId,
+      config,
+      setAlert,
+      setAuthResponse,
+      setIsLoading,
+      setShowSelfSignUp,
     });
-    console.log('Authenticate response:', resp);
-
-    // when the authentication is successful, generate the token
-    if (resp.flowStatus === FlowStatus.SuccessCompleted && resp.authData) {
-      console.log('successful authentication');
-      setAuthResponse(resp);
-
-      const authInstance: UIAuthClient = AuthClient.getInstance();
-      const state: string = (await authInstance.getDataLayer().getTemporaryDataParameter('state')).toString();
-
-      await authInstance.requestAccessToken(resp.authData.code, resp.authData.session_state, state);
-
-      authContext.setAuthentication();
-    } else if (resp.flowStatus === FlowStatus.FailIncomplete) {
-      setAuthResponse({
-        ...resp,
-        nextStep: authResponse.nextStep,
-      });
-
-      // TODO: Move this to core: and take from i18n
-      setAlert('Retry');
-    } else {
-      setAuthResponse(resp);
-      setShowSelfSignUp(false);
-    }
-    setIsLoading(false);
-  };
-
-  const getAuthenticationInfo = async (authenticatorId: string): Promise<void> => {
-    if (authResponse === undefined) {
-      throw new AsgardeoUIException('REACT_UI-SIGN_IN-GAI-IV03', 'Auth response is undefined.');
-    }
-
-    setIsLoading(true);
-
-    const resp: AuthApiResponse = await authenticate({
-      flowId: authResponse.flowId,
-      selectedAuthenticator: {
-        authenticatorId,
-      },
-    });
-    console.log('Authenticate response:', resp);
-
-    const metaData: Metadata = resp.nextStep.authenticators[0].metadata;
-    if (metaData.promptType === 'REDIRECTION_PROMPT') {
-      window.open(
-        metaData.additionalData?.redirectUrl,
-        resp.nextStep.authenticators[0].authenticator,
-        'width=500,height=600',
-      );
-
-      /**
-       * Add an event listener to the window to capture the message from the popup
-       */
-      window.addEventListener('message', function messageEventHandler(event: MessageEvent) {
-        /**
-         * Check the origin of the message to ensure it's from the popup window
-         */
-        if (event.origin !== config.signInRedirectURL) return;
-
-        const {code, state} = event.data;
-
-        if (code && state) {
-          handleAuthenticate({code, state}, resp.nextStep.authenticators[0].authenticatorId);
-        }
-
-        /**
-         * Remove the event listener
-         */
-        window.removeEventListener('message', messageEventHandler);
-      });
-    } else if (metaData.promptType === 'USER_PROMPT') {
-      setAuthResponse(resp);
-    }
-    setIsLoading(false);
   };
 
   const renderLoginOptions = (authenticators: Authenticator[]): ReactElement[] => {
@@ -175,7 +105,7 @@ const SignIn: FC<SignInProps> = (props: SignInProps) => {
         <LoginOptionsBox
           socialName={authenticator.authenticator}
           idp={authenticator.idp}
-          handleOnClick={() => getAuthenticationInfo(authenticator.authenticatorId)}
+          handleOnClick={() => handleAuthenticate(authenticator.authenticatorId)}
           key={authenticator.authenticatorId}
         />,
       );
@@ -238,14 +168,6 @@ const SignIn: FC<SignInProps> = (props: SignInProps) => {
       }
     }
 
-    const cryptoUtils = new SPACryptoUtils();
-    const decodedAuthenticator = cryptoUtils.base64URLDecode(authResponse.nextStep.authenticators[0].authenticatorId);
-    console.log(
-      'decodedAuthenticator: ',
-      new SPACryptoUtils().base64URLDecode(authResponse.nextStep.authenticators[0].authenticatorId).split(':')[0] ===
-        'email-otp-authenticator',
-    );
-
     if (authResponse?.flowStatus !== FlowStatus.SuccessCompleted && !isAuthenticated) {
       return SignInCore;
     }
@@ -258,37 +180,38 @@ const SignIn: FC<SignInProps> = (props: SignInProps) => {
   };
 
   const renderSignInComponent = () => {
-    const brandingPreference: Branding = useBrandingPreference();
-    const imgUrl = brandingPreference?.preference?.theme?.LIGHT?.images?.logo?.imgURL;
+    const imgUrl: string = brandingPreference?.preference?.theme?.LIGHT?.images?.logo?.imgURL;
     return (
-      <UISignIn>
-        <UISignIn.Image src={imgUrl} />
-        {authResponse?.flowStatus !== FlowStatus.SuccessCompleted && !isAuthenticated && renderSignIn({authResponse})}
-        {(authResponse?.flowStatus === FlowStatus.SuccessCompleted || isAuthenticated) && (
-          <div style={{backgroundColor: 'white', padding: '1rem'}}>Successfully Authenticated</div>
-        )}
-      </UISignIn>
+      <ThemeProvider theme={generateThemeSignIn({branding: brandingPreference})}>
+        <UISignIn>
+          <UISignIn.Image src={imgUrl} />
+          {authResponse?.flowStatus !== FlowStatus.SuccessCompleted && !isAuthenticated && renderSignIn()}
+          {(authResponse?.flowStatus === FlowStatus.SuccessCompleted || isAuthenticated) && (
+            <div style={{backgroundColor: 'white', padding: '1rem'}}>Successfully Authenticated</div>
+          )}
+          <UISignIn.Footer />
+        </UISignIn>
+      </ThemeProvider>
     );
   };
 
-  return (
-    <>
-      <div />
-      {isLoading ? (
-        <div className="circular-progress-holder">
-          <CircularProgress className="circular-progress" />
-        </div>
-      ) : Alert ? (
-        // TODO: Style this
-        <div>
-          <h1>Alert</h1>
-          <p>{Alert}</p>
-        </div>
-      ) : (
-        renderSignInComponent({authResponse})
-      )}
-    </>
-  );
+  if (isLoading) {
+    return (
+      <div className="circular-progress-holder">
+        <CircularProgress className="circular-progress" />
+      </div>
+    );
+  }
+  if (Alert) {
+    return (
+      <div>
+        <h1>Alert</h1>
+        <p>{Alert}</p>
+      </div>
+    );
+  }
+
+  return <>{renderSignInComponent()}</>;
 };
 
 export default SignIn;

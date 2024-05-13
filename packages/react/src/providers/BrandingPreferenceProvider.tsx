@@ -18,7 +18,7 @@
 
 import {Branding, getBranding} from '@asgardeo/js-ui-core';
 import {ThemeProvider} from '@oxygen-ui/react';
-import {FC, PropsWithChildren, useCallback, useEffect, useState} from 'react';
+import {FC, PropsWithChildren, useEffect, useState} from 'react';
 import BrandingPreferenceContext from '../contexts/branding-preference-context';
 import BrandingPreferenceProviderProps from '../models/branding-preference-provider-props';
 import generateTheme from '../theme/generate-theme';

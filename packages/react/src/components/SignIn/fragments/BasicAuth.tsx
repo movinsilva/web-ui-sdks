@@ -98,7 +98,7 @@ const BasicAuth = ({
         type="submit"
         fullWidth
         onClick={() => {
-          handleAuthenticate({password, username}, authenticatorId);
+          handleAuthenticate(authenticatorId, {password, username});
           setUsername('');
           setPassword('');
         }}

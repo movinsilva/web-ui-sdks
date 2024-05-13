@@ -28,10 +28,6 @@ interface GetLocalizationProps {
    */
   componentCustomization?: BrandingProps;
   /**
-   * Locale to filter the retrieval of localization.
-   */
-  locale: string;
-  /**
    * Customization prop passed to the provider
    */
   providerCustomization?: BrandingProps;

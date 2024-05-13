@@ -31,7 +31,9 @@ import GetLocalizationProps from '../models/get-localization-props';
  * @returns {Promise<Customization>} A promise that resolves with the merged branding properties.
  */
 const getLocalization = async (props: GetLocalizationProps): Promise<TextObject> => {
-  const {componentCustomization, locale, providerCustomization, screen} = props;
+  const {componentCustomization, providerCustomization, screen} = props;
+
+  const locale: string = componentCustomization?.locale ?? providerCustomization?.locale ?? 'en-US';
 
   const module: TextObject = await import(`./screens/${screen}/${locale}.ts`);
 
@@ -47,11 +49,9 @@ const getLocalization = async (props: GetLocalizationProps): Promise<TextObject>
       });
     }
   } catch (error) {
-    throw new AsgardeoUIException(
-      'JS_UI_CORE-LOCALIZATION-IV',
-      'Error occurred while fetching text from console branding.',
-      error.stack,
-    );
+    /**
+     * A situation where the language is not setup for the relevant screen in console.
+     */
   }
 
   /**

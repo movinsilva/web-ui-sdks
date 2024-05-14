@@ -20,7 +20,7 @@ import merge from 'lodash.merge';
 import {TextObject} from './screens/model';
 import getBrandingPreferenceText from '../api/get-branding-preference-text';
 import {AuthClient} from '../auth-client';
-import AsgardeoUIException from '../exception';
+import {BrandingPreferenceTypes} from '../models/branding-api-response';
 import {BrandingPreferenceTextAPIResponse} from '../models/branding-text-api-response';
 import GetLocalizationProps from '../models/get-localization-props';
 
@@ -31,9 +31,7 @@ import GetLocalizationProps from '../models/get-localization-props';
  * @returns {Promise<Customization>} A promise that resolves with the merged branding properties.
  */
 const getLocalization = async (props: GetLocalizationProps): Promise<TextObject> => {
-  const {componentCustomization, providerCustomization, screen} = props;
-
-  const locale: string = componentCustomization?.locale ?? providerCustomization?.locale ?? 'en-US';
+  const {componentTextOverrides, locale, providerTextOverrides, screen} = props;
 
   const module: TextObject = await import(`./screens/${screen}/${locale}.ts`);
 
@@ -41,11 +39,12 @@ const getLocalization = async (props: GetLocalizationProps): Promise<TextObject>
 
   try {
     if ((await AuthClient.getInstance().getDataLayer().getConfigData()).enableConsoleTextBranding ?? true) {
+      // TODO: name and type
       textFromConsoleBranding = await getBrandingPreferenceText({
         locale,
-        name: providerCustomization.name,
+        name: 'carbon.super',
         screen,
-        type: providerCustomization.type,
+        type: BrandingPreferenceTypes.Org,
       });
     }
   } catch (error) {
@@ -69,11 +68,11 @@ const getLocalization = async (props: GetLocalizationProps): Promise<TextObject>
     /**
      * PRIORITY 02: Text from provider customization
      */
-    providerCustomization?.preference?.text?.[locale]?.[screen] ?? {},
+    providerTextOverrides?.[locale]?.[screen] ?? {},
     /**
      * PRIORITY 01: Text from component customization
      */
-    componentCustomization?.preference?.text?.[locale]?.[screen] ?? {},
+    componentTextOverrides?.[locale]?.[screen] ?? {},
   );
 
   return mergedText;

@@ -16,10 +16,10 @@
  * under the License.
  */
 
-import {Branding, BrandingProps, ScreenType, TextObject, getLocalization, keys} from '@asgardeo/js-ui-core';
+import {BrandingProps, ScreenType, keys} from '@asgardeo/js-ui-core';
 import {CircularProgress, Grid} from '@oxygen-ui/react';
 import {ReactElement, useEffect, useState} from 'react';
-import {useBrandingPreference} from '../../../hooks/use-branding-preference';
+import {useTranslations} from '../../../hooks/use-translations';
 import {SignIn as UISignIn} from '../../../oxygen-ui-react-auth-components';
 
 interface BasicAuthProps {
@@ -39,45 +39,36 @@ const BasicAuth = ({
   showSelfSignUp,
   renderLoginOptions,
 }: BasicAuthProps): JSX.Element => {
-  const [isTextLoading, setIsTextLoading] = useState<boolean>(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [text, setText] = useState<TextObject>();
-  const branding: Branding = useBrandingPreference();
+
+  const {t, isLoading} = useTranslations(ScreenType.Login, brandingProps?.locale, brandingProps?.preference?.text);
 
   useEffect(() => {
-    getLocalization({
-      componentCustomization: brandingProps,
-      locale: brandingProps?.locale ?? branding?.locale ?? 'en-US',
-      providerCustomization: branding,
-      screen: ScreenType.Login,
-    }).then((response: TextObject) => {
-      console.log('Localization response:', response);
-      setText(response);
-      setIsTextLoading(false);
-    });
-  }, [branding, brandingProps]);
+    console.log('is text loading', isLoading);
+  }, [isLoading]);
 
-  if (isTextLoading) {
+  if (isLoading) {
     return (
       <div className="circular-progress-holder">
         <CircularProgress className="circular-progress" />
       </div>
     );
   }
+
   return (
     <UISignIn.Paper>
-      <UISignIn.Typography title>{text['login.heading']}</UISignIn.Typography>
+      <UISignIn.Typography title>{t(keys.login.login.heading)}</UISignIn.Typography>
 
       {isAlert && <UISignIn.Alert>{isAlert}</UISignIn.Alert>}
 
       <UISignIn.TextField
         fullWidth
         autoComplete="off"
-        label={text.username}
+        label={t(keys.login.username)}
         name="text"
         value={username}
-        placeholder={text['enter.your.username']}
+        placeholder={t(keys.login.enter.your.username)}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
       />
 
@@ -85,10 +76,10 @@ const BasicAuth = ({
         fullWidth
         name="password"
         autoComplete="new-password"
-        label={text.password}
+        label={t(keys.login.password)}
         type="password"
         value={password}
-        placeholder={text['enter.your.password']}
+        placeholder={t(keys.login.enter.your.password)}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
       />
 
@@ -103,7 +94,7 @@ const BasicAuth = ({
           setPassword('');
         }}
       >
-        {text['login.button']}
+        {t(keys.login.button)}
       </UISignIn.Button>
 
       {showSelfSignUp && (

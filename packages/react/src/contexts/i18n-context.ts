@@ -16,29 +16,9 @@
  * under the License.
  */
 
-import {BrandingPreferenceTextProps} from './branding';
-import {ScreenType} from './screen-type';
+import {Context, createContext} from 'react';
+import {I18n} from '../models/i18n-context';
 
-/**
- * Interface for getLocalization function props.
- */
-interface GetLocalizationProps {
-  /**
-   * Customiztion prop passed to the component
-   */
-  componentTextOverrides?: BrandingPreferenceTextProps;
-  /**
-   * Locale to retrieve localization.
-   */
-  locale: string;
-  /**
-   * Customization prop passed to the provider
-   */
-  providerTextOverrides?: BrandingPreferenceTextProps;
-  /**
-   * Screen to filter the retrieval of localization.
-   */
-  screen: ScreenType;
-}
+const I18nContext: Context<I18n> = createContext<I18n>(undefined);
 
-export default GetLocalizationProps;
+export default I18nContext;

@@ -16,29 +16,19 @@
  * under the License.
  */
 
-import {BrandingPreferenceTextProps} from './branding';
-import {ScreenType} from './screen-type';
+import {BrandingPreferenceTextProps, ScreenType, TextObject} from '@asgardeo/js-ui-core';
 
-/**
- * Interface for getLocalization function props.
- */
-interface GetLocalizationProps {
-  /**
-   * Customiztion prop passed to the component
-   */
-  componentTextOverrides?: BrandingPreferenceTextProps;
-  /**
-   * Locale to retrieve localization.
-   */
-  locale: string;
-  /**
-   * Customization prop passed to the provider
-   */
-  providerTextOverrides?: BrandingPreferenceTextProps;
-  /**
-   * Screen to filter the retrieval of localization.
-   */
-  screen: ScreenType;
+export type I18nLocalization =
+  | {
+      [key in ScreenType]: TextObject;
+    }
+  | {};
+
+export interface I18n {
+  setTranslations: (
+    screen: ScreenType,
+    componentLocaleOverride?: string,
+    componentTextOverrides?: BrandingPreferenceTextProps,
+  ) => Promise<boolean>;
+  text: I18nLocalization;
 }
-
-export default GetLocalizationProps;

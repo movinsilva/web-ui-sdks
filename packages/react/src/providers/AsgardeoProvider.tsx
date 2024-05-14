@@ -19,6 +19,7 @@
 import {AuthClient, CryptoUtils, MeAPIResponse, Store, UIAuthClient, getProfileInformation} from '@asgardeo/js-ui-core';
 import {FC, PropsWithChildren, useCallback, useEffect, useMemo, useState} from 'react';
 import BrandingPreferenceProvider from './BrandingPreferenceProvider';
+import I18nextProvider from './I18nProvider';
 import AsgardeoContext from '../contexts/asgardeo-context';
 import AsgardeProviderProps from '../models/asgardeo-provider-props';
 import AuthContext from '../models/auth-context';
@@ -91,7 +92,11 @@ const AsgardeoProvider: FC<PropsWithChildren<AsgardeProviderProps>> = (
 
   return (
     <AsgardeoContext.Provider value={value}>
-      <BrandingPreferenceProvider branding={branding}>{children}</BrandingPreferenceProvider>
+      <BrandingPreferenceProvider branding={branding}>
+        <I18nextProvider providerLocaleOverride={branding?.locale} providerTextOverrides={branding?.preference?.text}>
+          {children}
+        </I18nextProvider>
+      </BrandingPreferenceProvider>
     </AsgardeoContext.Provider>
   );
 };

@@ -36,26 +36,6 @@ const generateThemeSignIn: ({branding}: GenerateThemeProps) => Theme = ({brandin
           },
         },
         palette: {
-          customComponents: {
-            AppShell: {
-              Main: {
-                background: brandingTheme?.colors?.background?.body?.main ?? 'var(--oxygen-palette-background-paper)',
-              },
-              MainWrapper: {
-                background:
-                  brandingTheme?.colors?.background?.surface?.dark ?? 'var(--oxygen-palette-background-paper)',
-              },
-            },
-            Navbar: {
-              background: brandingTheme?.colors?.background?.surface?.dark ?? 'var(--oxygen-palette-background-paper)',
-            },
-          },
-          gradients: {
-            primary: {
-              stop1: '#EB4F63',
-              stop2: '#FA7B3F',
-            },
-          },
           primary: {
             main: brandingTheme?.colors?.primary?.main ?? '#ff7300',
           },
@@ -68,25 +48,6 @@ const generateThemeSignIn: ({branding}: GenerateThemeProps) => Theme = ({brandin
           },
         },
         palette: {
-          customComponents: {
-            AppShell: {
-              Main: {
-                background: brandingTheme?.colors?.background?.body?.main ?? '#FAF9F8',
-              },
-              MainWrapper: {
-                background: brandingTheme?.colors?.background?.surface?.dark ?? '#F6F4F2',
-              },
-            },
-            Navbar: {
-              background: brandingTheme?.colors?.background?.surface?.dark ?? '#F6F4F2',
-            },
-          },
-          gradients: {
-            primary: {
-              stop1: brandingTheme?.colors?.primary?.main ?? '#EB4F63',
-              stop2: brandingTheme?.colors?.primary?.main ?? '#FA7B3F',
-            },
-          },
           primary: {
             main: brandingTheme?.colors?.primary?.main ?? '#ff7300',
           },
@@ -106,7 +67,9 @@ const generateThemeSignIn: ({branding}: GenerateThemeProps) => Theme = ({brandin
         styleOverrides: {
           root: {
             color: `${
-              brandingTheme?.inputs?.base?.labels?.font?.color ?? brandingTheme?.colors?.text?.primary
+              brandingTheme?.inputs?.base?.labels?.font?.color !== ''
+                ? brandingTheme?.inputs?.base?.labels?.font?.color
+                : brandingTheme?.colors?.text?.primary
             } !important`,
           },
         },

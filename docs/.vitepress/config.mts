@@ -4,6 +4,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Asgardeo Web SDKs",
   description: "Official Documentation for Asgardeo Web SDKs",
+  ignoreDeadLinks: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [

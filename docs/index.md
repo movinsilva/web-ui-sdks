@@ -19,10 +19,12 @@ features:
       src: /public/js.png
     title: JS
     details: Javascript SDK for asgardeo
+    link: js/introduction.md
   - icon:
       src: /public/react.svg
     title: React
     details: React SDK for asgardeo
+    link: react/introduction.md
   - icon:
       src: /public/angular.png
     title: Angular

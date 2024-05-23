@@ -13,10 +13,29 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: "Examples",
+        text: "JS",
         items: [
-          { text: "Markdown Examples", link: "/markdown-examples" },
-          { text: "Runtime API Examples", link: "/api-examples" },
+          { text: "Introduction", link: "/js/introduction" },
+          { text: "APIs", link: "/js/apis" },
+        ],
+      },
+      {
+        text: "React",
+        items: [
+          {
+            text: "Introduction",
+            link: "/react/introduction",
+          },
+          {
+            text: "Components",
+            link: "/react/components",
+            items: [
+              {
+                text: "Asgardeo Provider",
+                link: "/react/components/asgardeo-provider",
+              },
+            ],
+          },
         ],
       },
     ],

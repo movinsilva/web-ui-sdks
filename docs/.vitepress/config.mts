@@ -7,10 +7,17 @@ export default defineConfig({
   description: "Official Documentation for Asgardeo Web SDKs",
   ignoreDeadLinks: true,
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
+    search: {
+      provider: "local",
+    },
+    logo: {
+      light: "/asgardeo-light.svg",
+      dark: "/asgardeo-dark.svg",
+    },
     nav: [
       { text: "Home", link: "/" },
-      { text: "Examples", link: "/markdown-examples" },
+      { text: "JS", link: "/js/introduction" },
+      { text: "React", link: "/react/introduction" },
     ],
 
     sidebar: [
@@ -40,6 +47,31 @@ export default defineConfig({
                 text: "SignIn",
                 link: "/react/components/sign-in",
               },
+              {
+                text: "SignOutButton",
+                link: "/react/components/sign-out-button",
+              },
+              {
+                text: "SignedIn",
+                link: "/react/components/signed-in",
+              },
+              {
+                text: "SignedOut",
+                link: "/react/components/signed-out",
+              },
+            ],
+          },
+          {
+            text: "Custom Hooks",
+            items: [
+              {
+                text: "useAuthentication",
+                link: "/react/hooks/use-authentication",
+              },
+              {
+                text: "useOn",
+                link: "/react/hooks/use-on",
+              },
             ],
           },
         ],
@@ -47,7 +79,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: "github", link: "https://github.com/vuejs/vitepress" },
+      { icon: "github", link: "https://github.com/asgardeo/web-ui-sdks" },
     ],
   },
 });

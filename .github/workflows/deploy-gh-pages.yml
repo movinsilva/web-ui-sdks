@@ -80,6 +80,12 @@ jobs:
         run: |
           npm run docs:build
 
+      - name: 🌩 Upload artifact
+        id: upload-artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/website/.vitepress/dist
+
       - name: 🔥 Deploy to GitHub Pages
         id: deploy-gh-pages
         uses: actions/deploy-pages@v4
